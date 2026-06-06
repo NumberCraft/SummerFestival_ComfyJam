@@ -1,0 +1,16 @@
+{
+    "name": "UI",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a0ed050d473e11443b12039309c19f04"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
