@@ -2,51 +2,21 @@ using UnityEngine;
 
 public class WaterCollector : MonoBehaviour
 {
-    public ParticleSystem waterStream;
+    public bool isConnected { get; private set; }
+    public WaterSource connectedSource { get; private set; }
 
-    [Header("Manual Position Offset")]
-    public Vector3 streamOffset;
-
-    private Transform currentWaterSource;
-    private bool isConnected;
-
-    private void OnTriggerEnter(Collider other)
+    public void Connect(WaterSource source)
     {
-        if (other.CompareTag("WaterSource"))
-        {
-            currentWaterSource = other.transform;
-            isConnected = true;
-
-            waterStream.Play();
-        }
+        connectedSource = source;
+        isConnected = true;
+        Debug.Log("Connected");
     }
 
-    private void OnTriggerExit(Collider other)
+    public void Disconnect()
     {
-        if (other.CompareTag("WaterSource"))
-        {
-            currentWaterSource = null;
-            isConnected = false;
+        connectedSource = null;
+        isConnected = false;
+        Debug.Log("Disconnected");
 
-            waterStream.Stop();
-        }
-    }
-
-    private void Update()
-    {
-        if (!isConnected || currentWaterSource == null)
-            return;
-
-        // Keep your manual position
-        waterStream.transform.position =
-            transform.position + streamOffset;
-
-        // Rotate toward water source
-        Vector3 direction =
-            (currentWaterSource.position -
-            waterStream.transform.position).normalized;
-
-        waterStream.transform.rotation =
-            Quaternion.LookRotation(direction);
     }
 }
