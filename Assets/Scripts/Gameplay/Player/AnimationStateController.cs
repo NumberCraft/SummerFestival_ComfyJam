@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class AnimationStateController : MonoBehaviour
+public class AnimationStateController : MonoBehaviour, IPausable
 {
     Animator animator;
     float speed = 0.0f;
@@ -91,5 +91,15 @@ public class AnimationStateController : MonoBehaviour
         speed = 0f;
 
         animator.SetFloat("Speed", speed);
+    }
+
+    public void Pause()
+    {
+        this.enabled = false;
+    }
+
+    public void Continue()
+    {
+        this.enabled = true;
     }
 }

@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Gull_1",
+    "dialogs": [
+      {
+        "text": "HI! WELCOME TO OUR ISLAND, *SUMMERTIME SUNSHINE*!",
+        "currentTags": ["speaker:Gull", "audio:Gull"]
+      },
+      {
+        "text": "I heard you've been having some problems here?",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "YES! WE HAVE BEEN STRUGGLING WITH A DROUGHT FOR ALMOST A YEAR!",
+        "currentTags": ["speaker:Gull", "audio:Gull"]
+      },
+      {
+        "text": "AND THE SUMMER FESTIVAL IS COMING SOON!",
+        "currentTags": ["speaker:Gull", "audio:Gull"]
+      },
+      {
+        "text": "I'm here to help. You're not going to miss the annual Summer Festival!",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "THANK YOU VERY MUCH! SEE YOU AT THE FESTIVAL!",
+        "currentTags": ["speaker:Gull", "audio:Gull"]
+      }
+    ]
+  }
+]

@@ -3,7 +3,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using System.Collections.Generic;
 
-public class CameraController : MonoBehaviour
+public class CameraController : MonoBehaviour, IPausable
 {
     [Header("References")]
     [SerializeField] private Transform orientation;
@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform camTransform;
 
     [SerializeField] private CinemachineStateDrivenCamera cinemachineStateDrivenCamera;
+    [SerializeField] private List<CinemachineCamera> cinemachineCameras;
 
     [Header("Properties")]
     [SerializeField] private float sens = 200f;
@@ -60,5 +61,25 @@ public class CameraController : MonoBehaviour
 
             playerBody.rotation = orientation.rotation;
         }
+    }
+
+    public void Pause()
+    {
+        foreach (var cam in cinemachineCameras)
+        {
+            cam.GetComponent<CinemachineInputAxisController>().enabled = false;
+        }
+
+        this.enabled = false;
+    }
+
+    public void Continue()
+    {
+        foreach (var cam in cinemachineCameras)
+        {
+            cam.GetComponent<CinemachineInputAxisController>().enabled = true;
+        }
+
+        this.enabled = true;
     }
 }

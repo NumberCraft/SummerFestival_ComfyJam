@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IPausable
 {
     #region Properties
 
@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private CapsuleCollider coll;
     [HideInInspector] public PlayerStaminaController staminaController;
+    private AnimationStateController animationStateController;
 
     private float horizontalInput;
     private float verticalInput;
@@ -68,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
         coll = GetComponentInChildren<CapsuleCollider>();
 
         staminaController = GetComponent<PlayerStaminaController>();
+        animationStateController = GetComponent<AnimationStateController>();
 
         if (speedLines.isPlaying)
             speedLines.Stop();
@@ -77,6 +79,15 @@ public class PlayerMovement : MonoBehaviour
     {
         // Standard ground check for physics
         grounded = Physics.Raycast(transform.position + offset, Vector3.down, playerHeight * 0.5f + 0.1f, ground);
+
+        if (!grounded && rb.linearVelocity.y < 0) // Only check while falling
+        {
+            // Shoot a raycast further down to "see" the floor coming
+            if (Physics.Raycast(transform.position + offset, Vector3.down, playerHeight * 0.5f + landingThreshold, ground))
+            {
+                animationStateController.TriggerLand();
+            }
+        }
 
         // Existing landing logic for the actual physics state
         if (grounded && !wasGrounded)
@@ -109,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
+
     private void MovementStateControl()
     {
         if (grounded && Input.GetKey(sprintKey))
@@ -220,6 +232,8 @@ public class PlayerMovement : MonoBehaviour
 
         rb.angularVelocity = new Vector3(rb.angularVelocity.x, 0f, rb.angularVelocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+
+        animationStateController.TriggerJump();
     }
 
     private void ResetJump()
@@ -267,6 +281,16 @@ public class PlayerMovement : MonoBehaviour
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
     #endregion
+
+    public void Pause()
+    {
+        this.enabled = false;
+    }
+
+    public void Continue()
+    {
+        this.enabled = true;
+    }
 
     private void OnDrawGizmos()
     {
