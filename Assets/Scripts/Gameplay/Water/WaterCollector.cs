@@ -17,6 +17,5 @@ public class WaterCollector : MonoBehaviour
         connectedSource = null;
         isConnected = false;
         Debug.Log("Disconnected");
-
     }
 }

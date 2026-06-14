@@ -1,14 +1,8 @@
 using UnityEngine;
 
-public enum GunMode
+public class WaterGunController : MonoBehaviour
 {
-    None,
-    SingleStream
-}
-
-public class WaterGun : MonoBehaviour
-{
-    [Header("Mode")]
+    /*[Header("Mode")]
     public GunMode currentMode = GunMode.None;
 
     [Header("Stream Settings")]
@@ -22,6 +16,12 @@ public class WaterGun : MonoBehaviour
 
     private FlowerController currentTargetFlower;
     private bool isStreaming = false;
+
+    public enum GunMode
+    {
+        None,
+        SingleStream
+    }
 
     private void Update()
     {
@@ -162,5 +162,5 @@ public class WaterGun : MonoBehaviour
             Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.4f);
             Gizmos.DrawWireSphere(transform.position, streamRange);
         }
-    }
+    }*/
 }

@@ -115,7 +115,7 @@ public class PlayerMovement : MonoBehaviour, IPausable
         {
             staminaController.StaminaJump();
 
-            Jump();
+            //Jump();
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
@@ -245,6 +245,7 @@ public class PlayerMovement : MonoBehaviour, IPausable
     #endregion
 
     #region Speed Control
+
     private void SpeedControl()
     {
         if (OnSlope() && !exitingSlope)
@@ -263,6 +264,7 @@ public class PlayerMovement : MonoBehaviour, IPausable
             }
         }
     }
+
     #endregion
 
     #region Slope
