@@ -1,4 +1,6 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Graphs;
 using UnityEngine;
 
 public class WaterGunStream : MonoBehaviour
@@ -11,6 +13,18 @@ public class WaterGunStream : MonoBehaviour
     [SerializeField] private WaterGun waterGun;
 
     public int resolution = 20;
+
+    [Header("Tube")]
+    [Range(0f, 1f)]
+    public float streamProgress = 0f;
+
+    [SerializeField] float streamLength = 0.25f;
+    [SerializeField] float fillSpeed = 3f;
+    [SerializeField] float drainSpeed = 2f;
+
+    bool wasShooting;
+    float releaseProgress;
+    bool isReleasing;
 
     [Header("Water Mesh")]
     [SerializeField] private MeshFilter waterMeshFilter;
@@ -29,57 +43,121 @@ public class WaterGunStream : MonoBehaviour
         waterMesh.MarkDynamic();
         waterMeshFilter.sharedMesh = waterMesh;
 
-        tubeRenderer = GetComponent<TubeRenderer>();
+        if (tubeRenderer == null)
+            tubeRenderer = GetComponent<TubeRenderer>();
     }
-
+    
     private void Update()
     {
-        if (!waterGun.isShooting)
+        if (waterGun.isShooting)
         {
-            waterMeshRenderer.enabled = false;
+            isReleasing = false;
+            wasShooting = true;
 
-            splashVFX.SetActive(false);
+            // 1. Position the target via Raycast
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, waterGun._streamRange, hitMask))
+                target.position = hit.point;
+            else
+                target.position = ray.origin + ray.direction * waterGun._streamRange;
+
+            // 2. Advance the front of the beam forward
+            streamProgress = Mathf.MoveTowards(streamProgress, 1f, fillSpeed * Time.deltaTime);
+            releaseProgress = 0f; // Reset release while shooting
+
+            // 3. Generate points: Start is pinned at 0, End grows to 1
+            List<Vector3> points = GeneratePoints(shootPoint.position, target.position, 0f, streamProgress);
+
+            tubeRenderer.BuildMesh(points, waterMesh, waterMeshFilter.transform, waterRadius, stress);
+            waterMeshRenderer.enabled = true;
+
+            // Splash only plays when the tip actually reaches near the target
+            UpdateSplashVFX(points, streamProgress >= 0.95f);
         }
         else
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            //if (Physics.Raycast(shootPoint.position, shootPoint.forward, out RaycastHit hit, waterGun._streamRange, hitMask))
-            if (Physics.Raycast(ray, out RaycastHit hit, waterGun._streamRange, hitMask))
+            if (wasShooting)
             {
-                target.position = hit.point;
+                if (!isReleasing)
+                {
+                    isReleasing = true;
+                }
 
-                List<Vector3> points = GeneratePoints();
+                // Advance the tail of the beam forward
+                releaseProgress = Mathf.MoveTowards(releaseProgress, 1f, drainSpeed * Time.deltaTime);
+
+                // Generate points: Start drains toward 1, End stays pinned at streamProgress (where it left off)
+                List<Vector3> points = GeneratePoints(shootPoint.position, target.position, releaseProgress, streamProgress);
 
                 tubeRenderer.BuildMesh(points, waterMesh, waterMeshFilter.transform, waterRadius, stress);
-
                 waterMeshRenderer.enabled = true;
 
-                splashVFX.transform.position = hit.point;
-                splashVFX.transform.forward = hit.normal;
-                splashVFX.SetActive(true);
+                // Keep splash active until the tail completely finishes draining
+                UpdateSplashVFX(points, releaseProgress < 0.95f);
+
+                // Clear stream entirely once the tail reaches the front
+                if (releaseProgress >= streamProgress)
+                {
+                    ResetStreamState();
+                }
             }
             else
             {
-                splashVFX.SetActive(false);
+                if (waterMeshRenderer.enabled || splashVFX.activeSelf)
+                {
+                    ResetStreamState();
+                }
             }
         }
     }
 
-    List<Vector3> GeneratePoints()
+    private void UpdateSplashVFX(List<Vector3> points, bool shouldBeActive)
+    {
+        if (shouldBeActive && points != null && points.Count > 1)
+        {
+            Vector3 tip = points[^1];
+            Vector3 prev = points[^2];
+
+            splashVFX.transform.position = tip;
+            splashVFX.transform.forward = (tip - prev).normalized;
+
+            if (!splashVFX.activeSelf)
+                splashVFX.SetActive(true);
+        }
+        else
+        {
+            splashVFX.SetActive(false);
+        }
+    }
+
+    private void ResetStreamState()
+    {
+        streamProgress = 0f;
+        releaseProgress = 0f;
+        isReleasing = false;
+        wasShooting = false; // Reset this so the else block stops processing
+
+        waterMeshRenderer.enabled = false;
+        splashVFX.SetActive(false);
+    }
+
+    List<Vector3> GeneratePoints(Vector3 a, Vector3 b, float startLerp, float endLerp)
     {
         List<Vector3> pts = new List<Vector3>();
 
-        Vector3 a = shootPoint.position;
-        Vector3 b = target.position;
-
         for (int i = 0; i <= resolution; i++)
         {
-            float t = i / (float)resolution;
+            float normalized = i / (float)resolution;
+
+            // Map resolution points dynamically between our custom start and end values
+            float t = Mathf.Lerp(startLerp, endLerp, normalized);
+            t = Mathf.Clamp01(t);
 
             Vector3 point = CalculateBezierPoint(t, a, a, b, b);
 
-            float wobble = stress * stress * 0.5f;
+            // Wobble scales down at the nozzle (t=0) and up at the tip
+            float wobbleFactor = Mathf.SmoothStep(0f, 1f, t);
+            float wobble = stress * stress * 0.5f * wobbleFactor;
 
             point += new Vector3(
                 Mathf.Sin(Time.time * 10f + t * 5f) * wobble,

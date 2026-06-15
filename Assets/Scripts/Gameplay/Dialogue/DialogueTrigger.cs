@@ -42,7 +42,10 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] private Transform headAimTarget;
     [SerializeField] private bool canLookAtThePlayer = true;
 
-    public static int currentDialogCount;
+    [SerializeField] private float lookSpeed = 2f;
+    [SerializeField] private Vector3 lookOffset;
+
+    //public static int currentDialogCount;
 
     #endregion
 
@@ -50,12 +53,15 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (Physics.CheckSphere(transform.position + offset, enterDialogueRange, playerLayer) && !DialogueSystem.i.dialogueIsPlaying)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position + offset, enterDialogueRange);
+            Collider[] colliders = Physics.OverlapSphere(transform.position + offset, enterDialogueRange, playerLayer);
 
             if (colliders.Length > 0)
             {
-                //if (canLookAtThePlayer)
-                //    headAimTarget.position = Camera.main.transform.position;
+                if (canLookAtThePlayer)
+                {
+                    headAimTarget.position = colliders[0].transform.position + lookOffset;
+                    headAim.weight = Mathf.MoveTowards(headAim.weight, 1f, lookSpeed * Time.deltaTime);
+                }
 
                 InteractUIManager.Instance.Show(InteractType.Dialogue);
 
@@ -67,11 +73,11 @@ public class DialogueTrigger : MonoBehaviour
 
                     onDialogStart?.Invoke();
 
-                    if (dialogIndex < currentDialogCount)
+                    /*if (dialogIndex < currentDialogCount)
                     {
                         dialogIndex++;
                         currentDialogCount++;
-                    }
+                    }*/
                 }
             }
         }
@@ -87,7 +93,12 @@ public class DialogueTrigger : MonoBehaviour
             if (!IsNearToOther())
             {
                 InteractUIManager.Instance.Hide(InteractType.Dialogue);
-            }       
+            }
+
+            if (canLookAtThePlayer)
+            {
+                headAim.weight = Mathf.MoveTowards(headAim.weight, 0f, lookSpeed * Time.deltaTime);
+            }
         }
 
         if (DialogueSystem.i.dialogueIsPlaying)
@@ -114,6 +125,15 @@ public class DialogueTrigger : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void ChangeDialogueIndexTo(int index)
+    {
+        if (index < maxDialogCount)
+        {
+            dialogIndex = index;
+            //currentDialogCount++;
+        }
     }
 
     private void OnDrawGizmos()

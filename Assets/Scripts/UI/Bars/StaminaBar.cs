@@ -12,6 +12,12 @@ public class StaminaBar : MonoBehaviour
     [SerializeField] private CanvasGroup staminaCanvasGroup = null;
     [SerializeField] private bool hideWhenNotDrainingStamina = false;
 
+    [SerializeField] private float duration = 1.0f;
+
+    private float lastValue = 1f;
+
+    private Coroutine canvasGroupCoroutine;
+
     private void Start()
     {
         staminaController = FindAnyObjectByType<PlayerStaminaController>();
@@ -22,19 +28,47 @@ public class StaminaBar : MonoBehaviour
     void UpdateStamina(float value)
     {
         staminaProgressUI.fillAmount = value;
-
-        StartCoroutine(SetCanvasGroupAlpha(value));
     }
 
-    private IEnumerator SetCanvasGroupAlpha(float value)
+    private bool previousHasRegenerated;
+
+    private void Update()
+    {
+        bool hasRegenerated = PlayerStaminaController.i.hasRegenerated;
+
+        if (hasRegenerated != previousHasRegenerated)
+        {
+            previousHasRegenerated = hasRegenerated;
+
+            if (canvasGroupCoroutine != null)
+            {
+                StopCoroutine(canvasGroupCoroutine);
+            }
+
+            canvasGroupCoroutine = StartCoroutine(
+                FadeCanvasGroup(hasRegenerated ? 0f : 1f)
+            );
+        }
+    }
+
+    private IEnumerator FadeCanvasGroup(float targetAlpha)
     {
         if (!hideWhenNotDrainingStamina)
-        {
             yield break;
+
+        float startAlpha = staminaCanvasGroup.alpha;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float t = elapsedTime / duration;
+            staminaCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, t);
+
+            yield return null;
         }
 
-        staminaCanvasGroup.alpha = value;
-
-        yield return null;
+        staminaCanvasGroup.alpha = targetAlpha;
     }
 }

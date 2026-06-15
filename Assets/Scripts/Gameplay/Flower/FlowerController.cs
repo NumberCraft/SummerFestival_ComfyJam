@@ -1,17 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FlowerController : MonoBehaviour
+public class FlowerController : MonoBehaviour, IWaterable
 {
-    [Header("Watering Settings")]
-    [SerializeField] private float wateringRate = 0.4f; // meter fill per second
+    [SerializeField] private Transform mainTransform;
 
     [Header("Growth (Placeholder)")]
     [SerializeField] private Vector3 grownScale = new Vector3(1f, 2f, 1f);
-
-    [Header("UI Meter")]
-    [SerializeField] private GameObject meterCanvas;   // world space canvas child
-    [SerializeField] private Image meterFill;          // the fill image inside it
+    private Vector3 startScale;
 
     public bool isFullyWatered { get; private set; }
 
@@ -22,37 +18,17 @@ public class FlowerController : MonoBehaviour
     {
         waterGun = FindAnyObjectByType<WaterGun>();
 
-        // Hide meter at start
-        if (meterCanvas != null)
-            meterCanvas.SetActive(false);
+        startScale = mainTransform.localScale;
     }
 
-    private void Update()
-    {
-        // Keep meter facing camera
-        if (meterCanvas != null && meterCanvas.activeSelf && Camera.main != null)
-        {
-            meterCanvas.transform.LookAt(Camera.main.transform);
-            meterCanvas.transform.Rotate(0f, 180f, 0f);
-        }
-    }
-
-    // Called every frame by WaterGun while shooting this flower
-    public void AddWater(float deltaTime)
+    public void Water(float waterAmount)
     {
         if (isFullyWatered) return;
 
-        waterProgress += wateringRate * deltaTime;
+        waterProgress += waterAmount;
         waterProgress = Mathf.Clamp01(waterProgress);
 
-        // Show and update meter
-        if (meterCanvas != null)
-        {
-            meterCanvas.SetActive(true);
-
-            if (meterFill != null)
-                meterFill.fillAmount = waterProgress;
-        }
+        mainTransform.localScale = Vector3.Lerp(startScale, grownScale, waterProgress);
 
         if (waterProgress >= 1f)
             FullyWatered();
@@ -78,20 +54,21 @@ public class FlowerController : MonoBehaviour
     }
 
 
-    private void FullyWatered()
+    public void FullyWatered()
     {
         isFullyWatered = true;
 
         // Placeholder growth - scale up the cube
-        transform.localScale = grownScale;
-
-        // Hide meter
-        if (meterCanvas != null)
-            meterCanvas.SetActive(false);
+        mainTransform.localScale = grownScale;
 
         // Tell gun to stop the stream
         waterGun?.OnFlowerFullyWatered();
 
         Debug.Log(gameObject.name + " fully watered and grown!");
+    }
+
+    public bool IsFullyWatered()
+    {
+        return isFullyWatered;
     }
 }

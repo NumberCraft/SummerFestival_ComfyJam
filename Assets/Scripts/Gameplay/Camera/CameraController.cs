@@ -33,34 +33,71 @@ public class CameraController : MonoBehaviour, IPausable
         Rotate();
     }
 
+    private Coroutine rotateCoroutine;
+
     private void Rotate()
     {
         if (!isOrientationFixed)
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
+            float horizontalInput = Input.GetAxisRaw("Horizontal");
+            float verticalInput = Input.GetAxisRaw("Vertical");
 
-            Vector3 viewDir = orientation.position - new Vector3(camTransform.position.x, orientation.position.y, camTransform.position.z);
+            Vector3 viewDir = orientation.position -
+                              new Vector3(
+                                  camTransform.position.x,
+                                  orientation.position.y,
+                                  camTransform.position.z);
+
             orientation.forward = viewDir.normalized;
 
-            //Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+            Vector3 inputDir =
+                orientation.forward * verticalInput +
+                orientation.right * horizontalInput;
 
-            Vector3 direction = inputDir.normalized;
-
-            if (direction != Vector3.zero)
+            if (inputDir.sqrMagnitude > 0.001f)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                Quaternion smoothedRotation = Quaternion.Slerp(playerBody.rotation, targetRotation, Time.deltaTime * rotationSpeed); ;
-                playerBody.rotation = smoothedRotation;
+                Quaternion targetRotation =
+                    Quaternion.LookRotation(inputDir.normalized);
+
+                playerBody.rotation = Quaternion.Slerp(
+                    playerBody.rotation,
+                    targetRotation,
+                    rotationSpeed * Time.deltaTime);
+            }
+            else if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+            {
+                if (rotateCoroutine != null)
+                    StopCoroutine(rotateCoroutine);
+
+                rotateCoroutine = StartCoroutine(
+                    RotateTo(orientation.forward));
             }
         }
         else
         {
-            orientation.localRotation = Quaternion.Euler(Vector3.zero);
-
+            orientation.localRotation = Quaternion.identity;
             playerBody.rotation = orientation.rotation;
         }
+    }
+
+    private IEnumerator RotateTo(Vector3 direction)
+    {
+        if (direction.sqrMagnitude < 0.001f)
+            yield break;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
+
+        while (Quaternion.Angle(playerBody.rotation, targetRotation) > 0.1f)
+        {
+            playerBody.rotation = Quaternion.RotateTowards(
+                playerBody.rotation,
+                targetRotation,
+                rotationSpeed * 100f * Time.deltaTime);
+
+            yield return null;
+        }
+
+        playerBody.rotation = targetRotation;
     }
 
     public void Pause()

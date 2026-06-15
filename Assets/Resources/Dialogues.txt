@@ -27,5 +27,114 @@
         "currentTags": ["speaker:Gull", "audio:Gull"]
       }
     ]
+  },
+  {
+    "name": "Crab_1",
+    "dialogs": [
+      {
+        "text": "Hi, welcome to Island - Summer Sunshine! Are you new here? I don't think I've seen you before.",
+        "currentTags": ["speaker:Crab", "audio:Crab"]
+      },
+      {
+        "text": "Yeah, I just arrived. Thought I'd lend you guys a hand.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Well, we could definitely use some help. I saw you coming in on that little boat.",
+        "currentTags": ["speaker:Crab", "audio:Crab"]
+      },
+      {
+        "text": "Uh… yeah.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "See you at the festival!",
+        "currentTags": ["speaker:Crab", "audio:Crab"]
+      }
+    ]
+  },
+  {
+    "name": "Bivalve_1",
+    "dialogs": [
+      {
+        "text": "Could you help us get that beach ball down? It's stuck up there, and we can't reach it.",
+        "currentTags": ["speaker:Bivalve", "audio:Bivalve"]
+      },
+      {
+        "text": "No problem!",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Thanks! By the way, my name's Bivalve!",
+        "currentTags": ["speaker:Bivalve", "audio:Bivalve"]
+      },
+      {
+        "text": "No problem!",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
+  },
+  {
+    "name": "Bivalve_2",
+    "dialogs": [
+      {
+        "text": "You got the beach ball! Thank you so much!",
+        "currentTags": ["speaker:Bivalve", "audio:Bivalve"]
+      },
+      {
+        "text": "No problem at all.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+    ]
+  },
+  {
+    "name": "Dolphin_1",
+    "dialogs": [
+      {
+        "text": "Hi! Are you here to help us with the drought problem?",
+        "currentTags": ["speaker:Dolphin", "audio:Dolphin"]
+      },
+      {
+        "text": "Yep. Don't worry, I'm a professional.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Good for you. No ticket, no entry.",
+        "currentTags": ["speaker:Dolphin", "audio:Dolphin"]
+      },
+      {
+        "text": "But I'm here to help.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "And I'm here to guard the bridge. Got a ticket?",
+        "currentTags": ["speaker:Dolphin", "audio:Dolphin"]
+      },
+      {
+        "text": "...No.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Then you're not getting through.",
+        "currentTags": ["speaker:Dolphin", "audio:Dolphin"]
+      }
+    ]
+  },
+  {
+    "name": "Dolphin_2",
+    "dialogs": [
+      {
+        "text": "Here's my ticket.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Everything's in order. Enjoy the festival.",
+        "currentTags": ["speaker:Dolphin", "audio:Dolphin"]
+      },
+      {
+        "text": "Thanks. You too.",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
   }
 ]

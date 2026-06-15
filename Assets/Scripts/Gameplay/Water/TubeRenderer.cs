@@ -32,12 +32,38 @@ public class TubeRenderer : MonoBehaviour
 
         for (int i = 0; i < points.Count; i++)
         {
-            Vector3 forward;
+            float alongTube = i / (float)(points.Count - 1);
+
+            float tipStart = 0.75f;
+            float tipScale = 1f;
+
+            if (alongTube > tipStart)
+            {
+                float t = Mathf.InverseLerp(tipStart, 1f, alongTube);
+
+                // Smooth dome falloff (prevents sharp cone collapse)
+                float dome = 1f - (t * t);
+
+                // Never let it fully collapse
+                float minTip = 0.4f;
+
+                tipScale = Mathf.Lerp(minTip, 1f, dome);
+
+                // Small “fluid bulge” before the tip
+                tipScale *= (1f + Mathf.Sin(t * Mathf.PI) * 0.15f);
+            }
+
+            Vector3 delta;
 
             if (i < points.Count - 1)
-                forward = (points[i + 1] - points[i]).normalized;
+                delta = points[i + 1] - points[i];
             else
-                forward = (points[i] - points[i - 1]).normalized;
+                delta = points[i] - points[i - 1];
+
+            if (delta.sqrMagnitude < 0.000001f)
+                delta = Vector3.forward;
+
+            Vector3 forward = delta.normalized;
 
             Vector3 side = Vector3.Cross(referenceUp, forward).normalized;
 
@@ -50,9 +76,9 @@ public class TubeRenderer : MonoBehaviour
             {
                 float angle = (j / (float)sides) * Mathf.PI * 2f;
 
-                Vector3 offset =
-                    (side * Mathf.Cos(angle) + up * Mathf.Sin(angle))
-                    * dynamicRadius;
+                Vector3 offset = (side * Mathf.Cos(angle) +
+                    up * Mathf.Sin(angle))
+                    * dynamicRadius * tipScale;
 
                 //vertices.Add(points[i] + offset);
                 vertices.Add(meshTransform.InverseTransformPoint(points[i] + offset));
