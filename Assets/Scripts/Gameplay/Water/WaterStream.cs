@@ -26,6 +26,11 @@ public class WaterStream : MonoBehaviour
     public float bendStrength = 2f;
     public float bodyAvoidStrength = 1.5f;
 
+    [Range(0f, 1f)]
+    public float streamProgress = 0f;
+
+    public float fillSpeed = 2f;
+
     [Header("Water Mesh")]
     [SerializeField] private MeshFilter waterMeshFilter;
     [SerializeField] private MeshRenderer waterMeshRenderer;
@@ -67,7 +72,8 @@ public class WaterStream : MonoBehaviour
         forceMesh.MarkDynamic();
         forceMeshFilter.sharedMesh = forceMesh;
 
-        tubeRenderer = GetComponent<TubeRenderer>();
+        if (tubeRenderer == null)
+            tubeRenderer = GetComponent<TubeRenderer>();
         //collector = GetComponentInParent<WaterCollector>();
     }
 
@@ -90,6 +96,11 @@ public class WaterStream : MonoBehaviour
         {
             isConnected = true;
 
+            streamProgress = Mathf.MoveTowards(
+                streamProgress,
+                1f,
+                fillSpeed * Time.deltaTime);
+
             List<Vector3> points = GeneratePoints();
 
             tubeRenderer.BuildMesh(points, waterMesh, waterMeshFilter.transform, waterRadius, GetStress());
@@ -100,6 +111,11 @@ public class WaterStream : MonoBehaviour
         }
         else
         {
+            streamProgress = Mathf.Lerp(
+            streamProgress,
+            0f,
+            Time.deltaTime * fillSpeed);
+
             if (isConnected)
             {
                 state = StreamState.Broken;
@@ -141,6 +157,22 @@ public class WaterStream : MonoBehaviour
 
     List<Vector3> GeneratePoints()
     {
+        /*if (streamProgress < 0.01f)
+        {
+            return new List<Vector3>()
+            {
+                source.position,
+                source.position + source.forward * 0.01f
+            };
+        }*/
+
+        if (streamProgress < 0.01f)
+        {
+            waterMesh.Clear();
+            forceMesh.Clear();
+            return null;
+        }
+
         float stress = GetStress();
 
         List<Vector3> pts = new List<Vector3>();
@@ -167,13 +199,19 @@ public class WaterStream : MonoBehaviour
             b - endDir * bendStrength
             + Vector3.up * curveHeight * 0.3f;
 
+        float endT = streamProgress;
+
         for (int i = 0; i <= resolution; i++)
         {
-            float t = i / (float)resolution;
+            float normalized = i / (float)resolution;
+
+            float t = normalized * endT;
 
             Vector3 point = CalculateBezierPoint(t, a, controlA, midControl, b);
 
-            float wobble = stress * stress * 0.5f;
+            float wobbleFactor = Mathf.SmoothStep(0f, 1f, normalized);
+
+            float wobble = stress * stress * 0.5f * wobbleFactor;
 
             point += new Vector3(
                 Mathf.Sin(Time.time * 10f + t * 5f) * wobble,

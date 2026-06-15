@@ -28,8 +28,20 @@ public class PlayerStaminaController : MonoBehaviour
 
     private PlayerMovement playerMovement;
 
+    public static PlayerStaminaController i;
+
     private void Start()
     {
+        if (i == null)
+        {
+            i = this;
+        }
+        else
+        {
+            Destroy(this);
+            return;
+        }
+
         playerMovement = GetComponent<PlayerMovement>();
     }
 
@@ -58,10 +70,12 @@ public class PlayerStaminaController : MonoBehaviour
             playerStamina -= staminaDrain * Time.deltaTime;
             UpdateStamina(1);
 
-            if (playerStamina <= 0)
+            hasRegenerated = false;
+
+            /*if (playerStamina <= 0)
             {
                 hasRegenerated = false;
-            }
+            }*/
         }
     }
 
@@ -70,10 +84,10 @@ public class PlayerStaminaController : MonoBehaviour
         if (playerStamina >= jumpCost)
         {
             playerStamina -= jumpCost;
-
             playerMovement.Jump();
-
             UpdateStamina(1);
+
+            hasRegenerated = false;
         }
     }
 

@@ -24,10 +24,19 @@ public class WaterSource : MonoBehaviour
 
         if (!playerCollector.isConnected)
         {
-            if (distance <= pickupRange && Input.GetKeyDown(connectKey))
+            if (distance <= pickupRange)
             {
-                playerCollector.Connect(this);
-                Debug.Log("Connected to " + gameObject.name);
+                if (Input.GetKeyDown(connectKey))
+                {
+                    playerCollector.Connect(this);
+                    Debug.Log("Connected to " + gameObject.name);
+                }
+
+                InteractUIManager.Instance.Show(InteractType.Water);
+            }
+            else
+            {
+                InteractUIManager.Instance.Hide(InteractType.Water);
             }
         }
         else if (playerCollector.connectedSource == this)
@@ -45,6 +54,8 @@ public class WaterSource : MonoBehaviour
                 playerCollector.Disconnect();
                 Debug.Log("Disconnected - manual");
             }
+
+            InteractUIManager.Instance.Hide(InteractType.Water);
         }
     }
 

@@ -6,7 +6,7 @@ public enum GunMode
     Blob
 }
 
-public class WaterGun : MonoBehaviour
+public class WaterGun : MonoBehaviour, IPausable
 {
     [Header("Mode")]
     public GunMode currentMode = GunMode.SingleStream;
@@ -19,11 +19,14 @@ public class WaterGun : MonoBehaviour
     public float _streamRange {  get { return streamRange; } private set {  streamRange = value; } }
     [SerializeField] private LayerMask waterableLayer;
 
+    [Space(20)]
+
+    [SerializeField] private float streamStrength = 0.2f;
+
     [Header("Player Rotation")]
     [SerializeField] private Transform playerBody;
     [SerializeField] private float rotationSpeed = 10f;
 
-    private FlowerController currentTargetFlower;
     private bool isStreaming = false;
 
     [Header("Particle System")]
@@ -39,7 +42,12 @@ public class WaterGun : MonoBehaviour
     private void Update()
     {
         if (!collector.isConnected)
+        {
+            isShooting = false;
+            isStreaming = false;
+
             return;
+        }
 
         HandleModeSwitch();
 
@@ -89,14 +97,6 @@ public class WaterGun : MonoBehaviour
             StopStream();
             return;
         }
-
-        // While holding mouse - stream toward locked target
-        if (Input.GetMouseButton(0) && isStreaming && currentTargetFlower != null && !currentTargetFlower.isFullyWatered)
-        {
-            RotatePlayerTowardFlower();
-
-            currentTargetFlower.AddWater(Time.deltaTime);
-        }
     }
 
     private void Shoot()
@@ -107,12 +107,22 @@ public class WaterGun : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, streamRange, waterableLayer))
         {
-            FlowerController flower = hit.collider.GetComponent<FlowerController>();
-
-            if (flower != null && !flower.isFullyWatered)
+            if (hit.collider.TryGetComponent(out IWaterable waterable))
             {
-                currentTargetFlower = flower;
-                isStreaming = true;
+                if (!waterable.IsFullyWatered())
+                {
+                    isStreaming = true;
+
+                    waterable.Water(streamStrength * Time.deltaTime);
+
+                    Debug.Log("Watering");
+                }
+            }
+            else if (hit.collider.TryGetComponent(out IMoveable moveable))
+            {
+                moveable.Move(ray.direction);
+
+                Debug.Log("Moving");
             }
         }
         else
@@ -125,7 +135,7 @@ public class WaterGun : MonoBehaviour
             muzzlePS.Play();
     }
 
-    private void RotatePlayerTowardFlower()
+    /*private void RotatePlayerTowardFlower()
     {
         if (playerBody == null || currentTargetFlower == null) return;
 
@@ -137,13 +147,12 @@ public class WaterGun : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             playerBody.rotation = Quaternion.Slerp(playerBody.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
-    }
+    }*/
 
     private void StopStream()
     {
         isShooting = false;
 
-        currentTargetFlower = null;
         isStreaming = false;
         
         muzzlePS.Stop();
@@ -173,5 +182,17 @@ public class WaterGun : MonoBehaviour
             Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.4f);
             Gizmos.DrawWireSphere(transform.position, streamRange);
         }
+    }
+
+    public void Pause()
+    {
+        isShooting = false;
+
+        enabled = false;
+    }
+
+    public void Continue()
+    {
+        enabled = true;
     }
 }
