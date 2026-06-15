@@ -334,10 +334,14 @@ MonoBehaviour:
     HashOfParent: 756556552
   - Hash: 637317342
     HashOfParent: -409901381
-  - Hash: 1950973854
+  - Hash: 1370555209
     HashOfParent: -409901381
-  - Hash: 833355868
-    HashOfParent: -409901381
+  - Hash: 788460410
+    HashOfParent: 756556552
+  - Hash: 1914514016
+    HashOfParent: 756556552
+  - Hash: 558702772
+    HashOfParent: 756556552
   m_LegacyLookAt: {fileID: 0}
   m_LegacyFollow: {fileID: 0}
 --- !u!1001 &74377862
@@ -490,6 +494,7 @@ MonoBehaviour:
   playerBody: {fileID: 74377863}
   camTransform: {fileID: 121506534}
   cinemachineStateDrivenCamera: {fileID: 0}
+  cinemachineCameras: []
   sens: 200
   rotationSpeed: 10
   isOrientationFixed: 0
@@ -6884,6 +6889,9 @@ MonoBehaviour:
   flowerLayer:
     serializedVersion: 2
     m_Bits: 128
+  blobProjectilePrefab: {fileID: 8612793551341669995, guid: 322d7c241a29da74298769f46ae25956, type: 3}
+  shootPoint: {fileID: 1659623285}
+  blobCooldown: 0.3
   playerBody: {fileID: 1094798934}
   rotationSpeed: 10
 --- !u!1 &1724119930
