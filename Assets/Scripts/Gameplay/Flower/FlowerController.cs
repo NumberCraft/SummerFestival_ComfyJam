@@ -33,6 +33,26 @@ public class FlowerController : MonoBehaviour, IWaterable
         if (waterProgress >= 1f)
             FullyWatered();
     }
+    public void AddWaterAmount(float amount)
+    {
+        if (isFullyWatered) return;
+
+        waterProgress += amount;
+        waterProgress = Mathf.Clamp01(waterProgress);
+
+        // Show meter
+        if (meterCanvas != null)
+        {
+            meterCanvas.SetActive(true);
+
+            if (meterFill != null)
+                meterFill.fillAmount = waterProgress;
+        }
+
+        if (waterProgress >= 1f)
+            FullyWatered();
+    }
+
 
     public void FullyWatered()
     {
