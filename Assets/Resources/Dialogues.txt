@@ -44,7 +44,9 @@
         "currentTags": ["speaker:Crab", "audio:Crab"]
       },
       {
-        "text": "Uh  yeah.",
+
+        "text": "Uh... yeah.",
+
         "currentTags": ["speaker:You", "audio:You"]
       },
       {
@@ -84,6 +86,12 @@
       {
         "text": "No problem at all.",
         "currentTags": ["speaker:You", "audio:You"]
+
+      },
+      {
+        "text": "Here, please take this ticket.",
+        "currentTags": ["speaker:Bivalve", "audio:Bivalve", "action:give"]
+
       }
     ]
   },
@@ -133,7 +141,7 @@
       },
       {
         "text": "Thanks. You too.",
-        "currentTags": ["speaker:You", "audio:You"]
+        "currentTags": ["speaker:You", "audio:You", "action:openBridge"]
       }
     ]
   }

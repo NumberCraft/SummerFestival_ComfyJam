@@ -35,6 +35,7 @@ public class DialogueSystem : MonoBehaviour
 
     private const string Speaker_Tag = "speaker";
     private const string Audio_Tag = "audio";
+    private const string Action_Tag = "action";
     //private const string Portrait_Tag = "portrait";
     //private const string Layout_Tag = "layout";
 
@@ -46,6 +47,8 @@ public class DialogueSystem : MonoBehaviour
     private MultiAimConstraint headAim;
     private bool canLookAtThePlayer;
 
+    private string actionId;
+
     [Header("Audio")]
     [SerializeField] private DialogueAudioInfoSO defaultAudioInfo;
     [SerializeField] private DialogueAudioInfoSO[] audioInfos;
@@ -53,6 +56,8 @@ public class DialogueSystem : MonoBehaviour
 
     private DialogueAudioInfoSO currentAudioInfo;
     private Dictionary<string, DialogueAudioInfoSO> audioInfoDictionary = new();
+
+    public DialogueTrigger currentDialogueTrigger { get; private set; }
 
     public static DialogueSystem i { get; private set; }
     #endregion
@@ -230,6 +235,13 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
+    private void SetCurrentAction(string id)
+    {
+        actionId = id;
+
+        anim.SetTrigger(actionId);
+    }
+
     private void HandleTags(List<string> currentTags)
     {
         // loop through each tag and handle it accordingly
@@ -237,9 +249,10 @@ public class DialogueSystem : MonoBehaviour
         {
             // parse the tag
             string[] splitTag = tag.Split(':');
-            if (splitTag.Length != 2)
+            if (splitTag.Length < 2)
             {
-                Debug.LogError("Tag could not be appropriately parsed: " + tag);
+                //Debug.LogError("Tag could not be appropriately parsed: " + tag);
+                Debug.LogWarning("Tag could not be appropriately parsed: " + tag);
             }
             string tagKey = splitTag[0].Trim();
             string tagValue = splitTag[1].Trim();
@@ -253,6 +266,9 @@ public class DialogueSystem : MonoBehaviour
                 case Audio_Tag:
                     SetCurrentAudioInfo(tagValue);
                     break;
+                case Action_Tag:
+                    SetCurrentAction(tagValue);
+                    break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
@@ -260,7 +276,7 @@ public class DialogueSystem : MonoBehaviour
         }
     }
 
-    public void EnterDialogueMode(string name, Animator animator, MultiAimConstraint headAim, bool canLookAtThePlayer, Transform target)
+    public void EnterDialogueMode(string name, Animator animator, MultiAimConstraint headAim, bool canLookAtThePlayer, Transform target, DialogueTrigger dialogueTrigger)
     {
         if (dialogueIsPlaying)
             return;
@@ -285,6 +301,8 @@ public class DialogueSystem : MonoBehaviour
         this.headAim = headAim;
         this.canLookAtThePlayer = canLookAtThePlayer;
 
+        currentDialogueTrigger = dialogueTrigger;
+
         if (canLookAtThePlayer)
             headAim.weight = 1f;
         // reset portrait, layout, and speaker
@@ -307,6 +325,8 @@ public class DialogueSystem : MonoBehaviour
 
         if (canLookAtThePlayer)
             headAim.weight = 0f;
+
+        currentDialogueTrigger = null;
 
         SetCurrentAudioInfo(defaultAudioInfo.id);
     }
