@@ -14,6 +14,8 @@ public class Target : MonoBehaviour, IBlobHitable
             isHitted = true;
 
             dam.AddShottedTarget();
+
+            Debug.Log("target hit");
         }
     }
 }

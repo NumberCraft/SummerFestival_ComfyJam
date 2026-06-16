@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3847341908734720633
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6292322874186838185}
+  - component: {fileID: 5622153024335205672}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6292322874186838185
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3847341908734720633}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5622153024335205672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3847341908734720633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 011758d188ee7d243b542c20cff3f995, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Core::AudioManager
+  sounds:
+  - name: TextType
+    clip: {fileID: 8300000, guid: d9c636037b3d41e4abccd1f879c3d014, type: 3}
+    volume: 1
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0.1
+    maxPitch: 1.9
+    spatialBlend: 0
+    spread: 0
+    minDistance: 0
+    maxDistance: 0
+    loop: 0
+    playOnAwake: 0
+    Global: 1
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  - name: ButtonPress
+    clip: {fileID: 8300000, guid: 9aa4f172626cdc3489fa17061a7a671d, type: 3}
+    volume: 0.6
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 0
+    spread: 0
+    minDistance: 0
+    maxDistance: 0
+    loop: 0
+    playOnAwake: 0
+    Global: 1
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  - name: ButtonSelect
+    clip: {fileID: 8300000, guid: e3e34570687a6d446ae7487672551acb, type: 3}
+    volume: 0.6
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 0
+    spread: 0
+    minDistance: 0
+    maxDistance: 0
+    loop: 0
+    playOnAwake: 0
+    Global: 1
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  soundPacks: []
