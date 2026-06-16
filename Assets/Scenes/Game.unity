@@ -2107,7 +2107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 303775e62a9f0394aa38757029d53e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaterGun
-  currentMode: 0
   collector: {fileID: 9065200987527059604}
   streamRange: 25
   waterableLayer:
@@ -2117,6 +2116,9 @@ MonoBehaviour:
   playerBody: {fileID: 1557776976762117484}
   rotationSpeed: 10
   muzzlePS: {fileID: 1197860225}
+  blobProjectilePrefab: {fileID: 5859182436204296647, guid: 0c8c9b24237028b489953f246eef554d, type: 3}
+  blobSpawnPoint: {fileID: 1995463959}
+  blobFireRate: 0.4
 --- !u!114 &429211687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12838,6 +12840,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 760136712}
+  - {fileID: 1995463959}
   m_Father: {fileID: 343201057}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &836405742
@@ -13200,6 +13203,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Gamaplay::FlowerController
   mainTransform: {fileID: 268382631}
   grownScale: {x: 3, y: 5, z: 3}
+  meterCanvas: {fileID: 0}
+  meterFill: {fileID: 0}
 --- !u!1 &940188843
 GameObject:
   m_ObjectHideFlags: 0
@@ -22967,6 +22972,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1991304004}
   m_CullTransparentMesh: 1
+--- !u!1 &1995463958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1995463959}
+  m_Layer: 0
+  m_Name: Blobspawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1995463959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995463958}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.048, y: 1.011, z: 1.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 836405741}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2068953014
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25281,7 +25317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5993430203705961762, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 423.92
+      value: 278.2
       objectReference: {fileID: 0}
     - target: {fileID: 5993430203705961762, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
       propertyPath: m_LocalPosition.y
@@ -25289,7 +25325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5993430203705961762, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -912.01
+      value: -720.1
       objectReference: {fileID: 0}
     - target: {fileID: 5993430203705961762, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
       propertyPath: m_LocalRotation.w
