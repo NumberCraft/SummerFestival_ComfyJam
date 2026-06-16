@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Target : MonoBehaviour
+public class Target : MonoBehaviour, IBlobHitable
 {
     public DamSystem dam { get; set; }
 

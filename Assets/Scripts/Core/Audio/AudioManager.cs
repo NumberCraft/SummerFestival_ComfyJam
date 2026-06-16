@@ -140,6 +140,36 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public static void Play(string name, AudioSource audioSource, float pitch = 0f)
+    {
+        Sound s = Array.Find(i.sounds, sound => sound.name == name);
+
+        audioSource.playOnAwake = s.playOnAwake;
+
+        audioSource.clip = s.clip;
+
+        audioSource.volume = s.volume;
+        if (pitch != 0f)
+            audioSource.pitch = pitch;
+        else
+            audioSource.pitch = s.pitch;
+
+        audioSource.spread = s.spread;
+        audioSource.minDistance = s.minDistance;
+        audioSource.maxDistance = s.maxDistance;
+
+        audioSource.loop = s.loop;
+
+        audioSource.outputAudioMixerGroup = s.audioMixerGroup;
+
+        audioSource.spatialBlend = s.spatialBlend;
+
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+    }
+
     public static void Play(string name, int index, float pitch = 0f)
     {
         Sound s = Array.Find(i.sounds, sound => sound.name == name);
@@ -210,6 +240,14 @@ public class AudioManager : MonoBehaviour
             if (source.isPlaying)
                 source.Stop();
         }
+    }
+
+    public static void Stop(string name, AudioSource source)
+    {
+        Sound s = Array.Find(i.sounds, sound => sound.name == name);
+
+        if (source.isPlaying)
+            source.Stop();
     }
 
     public static void Stop(string name, Transform sourceTransform)

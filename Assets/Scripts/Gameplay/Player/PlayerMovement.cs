@@ -52,6 +52,13 @@ public class PlayerMovement : MonoBehaviour, IPausable
     [HideInInspector] public PlayerStaminaController staminaController;
     private AnimationStateController animationStateController;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource walkAudioSource;
+    [SerializeField] private float sprintPitch = 1.2f;
+    [SerializeField] private float walkPitch = 1f;
+
+    [SerializeField] private float audioFadeOutDuration = 1f;
+
     private float horizontalInput;
     private float verticalInput;
 
@@ -136,6 +143,8 @@ public class PlayerMovement : MonoBehaviour, IPausable
 
                     if (!speedLines.isPlaying)
                         speedLines.Play();
+
+                    AudioManager.Play("run", walkAudioSource, sprintPitch);
                 }
                 else
                 {
@@ -144,6 +153,8 @@ public class PlayerMovement : MonoBehaviour, IPausable
 
                     if (!speedLines.isPlaying)
                         speedLines.Play();
+
+                    AudioManager.Play("run", walkAudioSource, walkPitch);
                 }
             }
             else
@@ -153,6 +164,8 @@ public class PlayerMovement : MonoBehaviour, IPausable
 
                 if (speedLines.isPlaying)
                     speedLines.Stop();
+
+                StartCoroutine(FadeOut(walkAudioSource, audioFadeOutDuration));
             }
         }
         else if (grounded)
@@ -163,10 +176,14 @@ public class PlayerMovement : MonoBehaviour, IPausable
             if (moveDirection != Vector3.zero)
             {
                 state = MovementState.walk;
+
+                AudioManager.Play("run", walkAudioSource, walkPitch);
             }
             else
             {
                 state = MovementState.standing;
+
+                StartCoroutine(FadeOut(walkAudioSource, audioFadeOutDuration));
             }
 
             if (speedLines.isPlaying)
@@ -188,7 +205,23 @@ public class PlayerMovement : MonoBehaviour, IPausable
                 if (speedLines.isPlaying)
                     speedLines.Stop();
             }
+
+            StartCoroutine(FadeOut(walkAudioSource, audioFadeOutDuration));
         }
+    }
+
+    public IEnumerator FadeOut(AudioSource source, float duration)
+    {
+        float startVolume = source.volume;
+
+        while (source.volume > 0)
+        {
+            source.volume -= startVolume * Time.deltaTime / duration;
+            yield return null;
+        }
+
+        source.Stop();
+        source.volume = startVolume;
     }
 
     #region Move

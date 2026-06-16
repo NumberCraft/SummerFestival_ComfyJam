@@ -45,9 +45,17 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] private float lookSpeed = 2f;
     [SerializeField] private Vector3 lookOffset;
 
-    //public static int currentDialogCount;
+    public static int currentDialogCount;
 
     #endregion
+
+    private void Start()
+    {
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+        }
+    }
 
     private void Update()
     {
@@ -69,7 +77,7 @@ public class DialogueTrigger : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    DialogueSystem.i.EnterDialogueMode(Name + "_" + dialogIndex, animator, headAim, canLookAtThePlayer, target);
+                    DialogueSystem.i.EnterDialogueMode(Name + "_" + dialogIndex, animator, headAim, canLookAtThePlayer, target, this);
 
                     onDialogStart?.Invoke();
 
@@ -81,10 +89,12 @@ public class DialogueTrigger : MonoBehaviour
                 }
             }
         }
-        else if (!Physics.CheckSphere(transform.position + offset, enterDialogueRange, playerLayer) && DialogueSystem.i.dialogueIsPlaying)
+        else if (!Physics.CheckSphere(transform.position + offset, enterDialogueRange, playerLayer) && DialogueSystem.i.dialogueIsPlaying && DialogueSystem.i.currentDialogueTrigger == this)
         {
             if (canGetOutOfDialogWhenNotNear)
             {
+                Debug.Log("Got out of dialogue.");
+
                 DialogueSystem.i.StartCoroutine(DialogueSystem.i.ExitDialogueModeCoroutine());
             }
         }
@@ -129,7 +139,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public void ChangeDialogueIndexTo(int index)
     {
-        if (index < maxDialogCount)
+        if (index <= maxDialogCount)
         {
             dialogIndex = index;
             //currentDialogCount++;
