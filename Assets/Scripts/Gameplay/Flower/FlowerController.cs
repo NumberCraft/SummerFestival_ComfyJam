@@ -9,6 +9,9 @@ public class FlowerController : MonoBehaviour, IWaterable
     [SerializeField] private Vector3 grownScale = new Vector3(1f, 2f, 1f);
     private Vector3 startScale;
 
+    [Header("Water Meter")]
+    [SerializeField] private GameObject meterCanvas;
+    [SerializeField] private Image meterFill;
     public bool isFullyWatered { get; private set; }
 
     private float waterProgress = 0f; // 0 to 1

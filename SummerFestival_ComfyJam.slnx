@@ -1,9 +1,9 @@
 ﻿<Solution>
   <Project Path="Gamaplay.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Core.csproj" />
   <Project Path="WanzyeeStudio.Runtime.csproj" />
   <Project Path="kTools.Mirrors.Runtime.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="UI.csproj" />
   <Project Path="kTools.Mirrors.Editor.csproj" />
 </Solution>

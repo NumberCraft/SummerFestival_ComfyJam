@@ -3,9 +3,12 @@ using UnityEngine;
 public class WaterBlobProjectile : MonoBehaviour
 {
     [Header("Blob Settings")]
-    [SerializeField] private float speed = 20f;
     [SerializeField] private float destroyAfter = 5f;
     [SerializeField] private float waterAmount = 0.25f;
+
+    [Header("Launch Settings")]
+    public float launchForce = 25f;
+    public float upwardForce = 8f;
 
     [Header("Effects")]
     [SerializeField] private GameObject splashEffect;
@@ -20,20 +23,27 @@ public class WaterBlobProjectile : MonoBehaviour
 
     private void Start()
     {
-        // Destroy automatically if nothing hit
         Destroy(gameObject, destroyAfter);
 
         // Ignore player collision
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject player =
+            GameObject.FindGameObjectWithTag("Player");
 
         if (player != null)
         {
-            Collider playerCollider = player.GetComponent<Collider>();
-            Collider myCollider = GetComponent<Collider>();
+            Collider playerCollider =
+                player.GetComponent<Collider>();
 
-            if (playerCollider != null && myCollider != null)
+            Collider myCollider =
+                GetComponent<Collider>();
+
+            if (playerCollider != null &&
+                myCollider != null)
             {
-                Physics.IgnoreCollision(myCollider, playerCollider);
+                Physics.IgnoreCollision(
+                    myCollider,
+                    playerCollider
+                );
             }
         }
     }
@@ -42,25 +52,39 @@ public class WaterBlobProjectile : MonoBehaviour
     {
         if (rb == null) return;
 
-        rb.linearVelocity = direction * speed;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        // Add upward arc
+        Vector3 launchDirection =
+            (direction + Vector3.up * upwardForce)
+            .normalized;
+
+        rb.AddForce(
+            launchDirection * launchForce,
+            ForceMode.Impulse
+        );
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Prevent double hit bug
         if (hasHit) return;
         hasHit = true;
 
         FlowerController flower =
-            collision.collider.GetComponent<FlowerController>();
+            collision.collider
+            .GetComponent<FlowerController>();
 
         // Give water
-        if (flower != null && !flower.isFullyWatered)
+        if (flower != null &&
+            !flower.isFullyWatered)
         {
-            flower.AddWaterAmount(waterAmount);
+            flower.AddWaterAmount(
+                waterAmount
+            );
         }
 
-        // Spawn splash effect
+        // Splash effect
         if (splashEffect != null)
         {
             GameObject splash =
@@ -73,6 +97,6 @@ public class WaterBlobProjectile : MonoBehaviour
             Destroy(splash, 2f);
         }
 
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
 }
