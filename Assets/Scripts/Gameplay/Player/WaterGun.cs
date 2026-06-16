@@ -32,6 +32,9 @@ public class WaterGun : MonoBehaviour, IPausable
     [Header("Particle System")]
     [SerializeField] private ParticleSystem muzzlePS;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource waterStreamAudioSource;
+    [SerializeField] private float audioFadeDuration = 1f;
     public bool isShooting { get; private set; }
 
     private void Start()
@@ -133,6 +136,8 @@ public class WaterGun : MonoBehaviour, IPausable
 
         if (!muzzlePS.isPlaying)
             muzzlePS.Play();
+
+        AudioManager.Play("waterStream", waterStreamAudioSource);
     }
 
     /*private void RotatePlayerTowardFlower()
@@ -156,6 +161,7 @@ public class WaterGun : MonoBehaviour, IPausable
         isStreaming = false;
         
         muzzlePS.Stop();
+        AudioManager.i.StartCoroutine(AudioManager.i.FadeOut(waterStreamAudioSource, audioFadeDuration));
     }
 
     public void OnFlowerFullyWatered()

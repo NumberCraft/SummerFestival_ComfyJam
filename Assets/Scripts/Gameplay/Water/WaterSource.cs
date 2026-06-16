@@ -34,9 +34,10 @@ public class WaterSource : MonoBehaviour
 
                 InteractUIManager.Instance.Show(InteractType.Water);
             }
-            else
+            else if (distance > pickupRange)
             {
-                InteractUIManager.Instance.Hide(InteractType.Water);
+                if (!IsNearToOther())
+                    InteractUIManager.Instance.Hide(InteractType.Water);
             }
         }
         else if (playerCollector.connectedSource == this)
@@ -57,6 +58,23 @@ public class WaterSource : MonoBehaviour
 
             InteractUIManager.Instance.Hide(InteractType.Water);
         }
+    }
+
+    private bool IsNearToOther()
+    {
+        WaterSource[] waterSources = FindObjectsByType<WaterSource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (var ws in waterSources)
+        {
+            float distance = Vector3.Distance(ws.transform.position, playerCollector.transform.position);
+
+            if (distance <= ws.pickupRange)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void OnDrawGizmos()

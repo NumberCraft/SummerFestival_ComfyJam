@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WorldSpaceCanvas : MonoBehaviour
+public class Billboard : MonoBehaviour
 {
     private void Update()
     {
