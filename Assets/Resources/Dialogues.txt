@@ -44,7 +44,7 @@
         "currentTags": ["speaker:Crab", "audio:Crab"]
       },
       {
-        "text": "Uh… yeah.",
+        "text": "Uh  yeah.",
         "currentTags": ["speaker:You", "audio:You"]
       },
       {
@@ -84,7 +84,7 @@
       {
         "text": "No problem at all.",
         "currentTags": ["speaker:You", "audio:You"]
-      },
+      }
     ]
   },
   {

@@ -1,38 +1,37 @@
 using UnityEngine;
 
-public enum GunMode
-{
-    SingleStream,
-    Blob
-}
-
 public class WaterGun : MonoBehaviour, IPausable
 {
-    [Header("Mode")]
-    public GunMode currentMode = GunMode.SingleStream;
-
     [Header("References")]
     [SerializeField] private WaterCollector collector;
 
     [Header("Stream Settings")]
     [SerializeField] private float streamRange = 15f;
-    public float _streamRange {  get { return streamRange; } private set {  streamRange = value; } }
+    public float _streamRange
+    {
+        get { return streamRange; }
+        private set { streamRange = value; }
+    }
+
     [SerializeField] private LayerMask waterableLayer;
-
-    [Space(20)]
-
     [SerializeField] private float streamStrength = 0.2f;
 
     [Header("Player Rotation")]
     [SerializeField] private Transform playerBody;
     [SerializeField] private float rotationSpeed = 10f;
 
-    private bool isStreaming = false;
-
     [Header("Particle System")]
     [SerializeField] private ParticleSystem muzzlePS;
 
+    [Header("Blob Settings")]
+    [SerializeField] private GameObject blobProjectilePrefab;
+    [SerializeField] private Transform blobSpawnPoint;
+    [SerializeField] private float blobFireRate = 0.4f;
+
+    private float blobFireCooldown = 0f;
+
     public bool isShooting { get; private set; }
+    private bool isStreaming = false;
 
     private void Start()
     {
@@ -41,67 +40,40 @@ public class WaterGun : MonoBehaviour, IPausable
 
     private void Update()
     {
+        // Must be connected to a water source
         if (!collector.isConnected)
         {
-            isShooting = false;
-            isStreaming = false;
-
+            StopStream();
             return;
         }
 
-        HandleModeSwitch();
-
-        if (currentMode == GunMode.SingleStream)
-            HandleSingleStream();
-        else
-            StopStream();
+        HandleSingleStream();
+        HandleBlob();
     }
 
-    private void HandleModeSwitch()
+    // ─────────────────────────────────────────────
+    // LEFT CLICK = STREAM MODE
+    // ─────────────────────────────────────────────
+
+
+private void HandleSingleStream()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            /*currentMode = currentMode == GunMode.SingleStream
-                ? GunMode.None
-                : GunMode.SingleStream;*/
-
-            currentMode = GunMode.SingleStream;
-
-            if (currentMode == GunMode.SingleStream)
-            {
-                // Unlock cursor so player can freely click on flowers
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                // Lock cursor back when leaving aim mode
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-                StopStream();
-            }
-
-            Debug.Log("Gun Mode: " + currentMode);
-        }
-    }
-
-    private void HandleSingleStream()
-    {
-        // Click to select a flower target
         if (Input.GetMouseButton(0))
+        {
             Shoot();
+        }
 
-        // Release to stop stream
         if (Input.GetMouseButtonUp(0))
         {
             StopStream();
-            return;
         }
     }
 
     private void Shoot()
     {
+        // STREAM ONLY
         isShooting = true;
+        isStreaming = true;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -111,83 +83,121 @@ public class WaterGun : MonoBehaviour, IPausable
             {
                 if (!waterable.IsFullyWatered())
                 {
-                    isStreaming = true;
-
                     waterable.Water(streamStrength * Time.deltaTime);
-
-                    Debug.Log("Watering");
                 }
             }
             else if (hit.collider.TryGetComponent(out IMoveable moveable))
             {
                 moveable.Move(ray.direction);
-
-                Debug.Log("Moving");
             }
-        }
-        else
-        {
-            // Clicked on nothing - stop current stream
-            //StopStream();
         }
 
         if (!muzzlePS.isPlaying)
             muzzlePS.Play();
     }
 
-    /*private void RotatePlayerTowardFlower()
+    private void HandleBlob()
     {
-        if (playerBody == null || currentTargetFlower == null) return;
+        if (blobFireCooldown > 0f)
+            blobFireCooldown -= Time.deltaTime;
 
-        Vector3 direction = (currentTargetFlower.transform.position - playerBody.position).normalized;
-        direction.y = 0f; // Keep rotation flat, no tilting up/down
-
-        if (direction != Vector3.zero)
+        // RIGHT CLICK
+        if (Input.GetMouseButton(1))
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            playerBody.rotation = Quaternion.Slerp(playerBody.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            // Stop stream if active
+            if (isShooting)
+                StopStream();
+
+            ShootBlob();
         }
-    }*/
+    }
+
+    private void ShootBlob()
+    {
+        if (blobFireCooldown > 0f)
+            return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        Vector3 targetPoint;
+
+        if (Physics.Raycast(ray, out RaycastHit hit, streamRange))
+        {
+            targetPoint = hit.point;
+        }
+        else
+        {
+            targetPoint =
+                ray.origin + ray.direction * streamRange;
+        }
+
+        if (blobProjectilePrefab != null &&
+            blobSpawnPoint != null)
+        {
+            Vector3 direction =
+                (targetPoint - blobSpawnPoint.position)
+                .normalized;
+
+            GameObject blob = Instantiate(
+                blobProjectilePrefab,
+                blobSpawnPoint.position,
+                Quaternion.LookRotation(direction)
+            );
+
+            if (blob.TryGetComponent(
+                out WaterBlobProjectile projectile))
+            {
+                projectile.Launch(direction);
+            }
+
+            // IMPORTANT:
+            // Blob mode should NOT activate stream visuals
+            isShooting = false;
+            isStreaming = false;
+
+            blobFireCooldown = blobFireRate;
+
+            if (!muzzlePS.isPlaying)
+                muzzlePS.Play();
+        }
+    }
 
     private void StopStream()
     {
         isShooting = false;
-
         isStreaming = false;
-        
+
         muzzlePS.Stop();
     }
+
+
+
+    // ─────────────────────────────────────────────
+    // RIGHT CLICK = BLOB MODE
+    // ─────────────────────────────────────────────
+
+    
+
+    
+
+    // ─────────────────────────────────────────────
+    // Shared
+    // ─────────────────────────────────────────────
+
+    
 
     public void OnFlowerFullyWatered()
     {
         StopStream();
     }
 
-    private void OnDrawGizmos()
-    {
-        // Changes color based on current mode
-        if (currentMode == GunMode.SingleStream)
-        {
-            // Blue when aim mode is active
-            Gizmos.color = new Color(0.2f, 0.6f, 1f, 0.1f);
-            Gizmos.DrawSphere(transform.position, streamRange);
-            Gizmos.color = new Color(0.2f, 0.6f, 1f, 1f);
-            Gizmos.DrawWireSphere(transform.position, streamRange);
-        }
-        else
-        {
-            // Grey when mode is off
-            Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.05f);
-            Gizmos.DrawSphere(transform.position, streamRange);
-            Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.4f);
-            Gizmos.DrawWireSphere(transform.position, streamRange);
-        }
-    }
+    // ─────────────────────────────────────────────
+    // Pause System
+    // ─────────────────────────────────────────────
 
     public void Pause()
     {
         isShooting = false;
-
         enabled = false;
     }
 
@@ -195,4 +205,31 @@ public class WaterGun : MonoBehaviour, IPausable
     {
         enabled = true;
     }
+
+    // ─────────────────────────────────────────────
+    // Gizmos
+    // ─────────────────────────────────────────────
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(
+            0.2f,
+            0.6f,
+            1f,
+            0.1f
+        );
+
+        Gizmos.DrawSphere(
+            transform.position,
+            streamRange
+        );
+
+        Gizmos.color = Color.cyan;
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            streamRange
+        );
+    }
 }
+
