@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -262,6 +263,34 @@ public class AudioManager : MonoBehaviour
             if (source.isPlaying)
                 source.Stop();
         }
+    }
+
+    public static Dictionary<AudioSource, Coroutine> fadeCoroutines = new();
+
+    public static void FadeStop(AudioSource source, float duration)
+    {
+        if (source.isPlaying && fadeCoroutines.ContainsKey(source))
+        {
+            //fadeCoroutine = i.StartCoroutine("FadeOut");
+            fadeCoroutines.Add(source, i.StartCoroutine(i.FadeOut(source, duration)));
+        }
+    }
+
+    public IEnumerator FadeOut(AudioSource source, float duration)
+    {
+        float startVolume = source.volume;
+
+        while (source.volume > 0)
+        {
+            source.volume -= startVolume * Time.deltaTime / duration;
+            yield return null;
+        }
+
+        source.Stop();
+        source.volume = startVolume;
+        fadeCoroutines.Remove(source);
+
+        yield break;
     }
 
     public static void Play(Sound s, AudioSource audioSource)

@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour, IPausable
     [SerializeField] private float sprintPitch = 1.2f;
     [SerializeField] private float walkPitch = 1f;
 
-    [SerializeField] private float audioFadeOutDuration = 1f;
+    [SerializeField] private float audioFadeDuration = 1f;
 
     private float horizontalInput;
     private float verticalInput;
@@ -165,7 +165,9 @@ public class PlayerMovement : MonoBehaviour, IPausable
                 if (speedLines.isPlaying)
                     speedLines.Stop();
 
-                StartCoroutine(FadeOut(walkAudioSource, audioFadeOutDuration));
+                //StartCoroutine(FadeOut(walkAudioSource, audioFadeOutDuration));
+                //AudioManager.FadeStop(walkAudioSource, audioFadeOutDuration);
+                AudioManager.i.StartCoroutine(AudioManager.i.FadeOut(walkAudioSource, audioFadeDuration));
             }
         }
         else if (grounded)
@@ -183,7 +185,9 @@ public class PlayerMovement : MonoBehaviour, IPausable
             {
                 state = MovementState.standing;
 
-                StartCoroutine(FadeOut(walkAudioSource, audioFadeOutDuration));
+                //StartCoroutine(FadeOut(walkAudioSource, audioFadeOutDuration));
+                //AudioManager.FadeStop(walkAudioSource, audioFadeOutDuration);
+                AudioManager.i.StartCoroutine(AudioManager.i.FadeOut(walkAudioSource, audioFadeDuration));
             }
 
             if (speedLines.isPlaying)
@@ -206,22 +210,10 @@ public class PlayerMovement : MonoBehaviour, IPausable
                     speedLines.Stop();
             }
 
-            StartCoroutine(FadeOut(walkAudioSource, audioFadeOutDuration));
+            //StartCoroutine(FadeOut(walkAudioSource, audioFadeOutDuration));
+            //AudioManager.FadeStop(walkAudioSource, audioFadeOutDuration);
+            AudioManager.i.StartCoroutine(AudioManager.i.FadeOut(walkAudioSource, audioFadeDuration));
         }
-    }
-
-    public IEnumerator FadeOut(AudioSource source, float duration)
-    {
-        float startVolume = source.volume;
-
-        while (source.volume > 0)
-        {
-            source.volume -= startVolume * Time.deltaTime / duration;
-            yield return null;
-        }
-
-        source.Stop();
-        source.volume = startVolume;
     }
 
     #region Move
