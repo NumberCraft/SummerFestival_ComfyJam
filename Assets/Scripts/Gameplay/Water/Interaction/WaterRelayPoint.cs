@@ -1,10 +1,15 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaterRelayPoint : WaterSource, IWaterable
 {
     [SerializeField] private float maxWaterAmount;
     private float currentWaterAmount;
     private bool isAvailable;
+
+    [Header("UI Meter")]
+    [SerializeField] private GameObject meterCanvas;   // world space canvas child
+    [SerializeField] private Image meterFill;          // the fill image inside it
 
     public override void Update()
     {
@@ -22,15 +27,27 @@ public class WaterRelayPoint : WaterSource, IWaterable
     public void Water(float waterAmount)
     {
         currentWaterAmount += waterAmount;
+
+        if (meterCanvas != null)
+        {
+            meterCanvas.SetActive(true);
+
+            if (meterFill != null)
+                meterFill.fillAmount = Mathf.Clamp01(currentWaterAmount);
+        }
+
+        if (currentWaterAmount >= maxWaterAmount)
+            FullyWatered();
     }
 
     public void FullyWatered()
     {
-        throw new System.NotImplementedException();
+        if (meterCanvas != null)
+            meterCanvas.SetActive(false);
     }
 
     public bool IsFullyWatered()
     {
-        throw new System.NotImplementedException();
+        return currentWaterAmount >= maxWaterAmount;
     }
 }

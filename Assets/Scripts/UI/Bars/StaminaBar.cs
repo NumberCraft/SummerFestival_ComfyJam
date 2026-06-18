@@ -14,8 +14,6 @@ public class StaminaBar : MonoBehaviour
 
     [SerializeField] private float duration = 1.0f;
 
-    private float lastValue = 1f;
-
     private Coroutine canvasGroupCoroutine;
 
     private void Start()

@@ -16,6 +16,9 @@ public class SettingsData
 
     public float brightness;
 
+    public bool invertYAxis;
+    public bool invertXAxis;
+
     public SettingsData()
     {
         this.masterVolume = 0f;
@@ -27,9 +30,13 @@ public class SettingsData
         this.resolution = 0;
 
         this.brightness = 0f;
+
+        this.invertYAxis = false;
+        this.invertXAxis = false;
     }
 
-    public SettingsData(float masterVolume, float musicVolume, float soundVolume, int shadowQuality, int screenMode, int resolution, float brightness)
+    public SettingsData(float masterVolume, float musicVolume, float soundVolume, int shadowQuality, int screenMode, int resolution, float brightness,
+        bool invertYAxis, bool invertXAxis)
     {
         this.masterVolume = masterVolume;
         this.musicVolume = musicVolume;
@@ -40,5 +47,8 @@ public class SettingsData
         this.resolution = resolution;
 
         this.brightness = brightness;
+
+        this.invertYAxis = invertYAxis;
+        this.invertXAxis = invertXAxis;
     }
 }

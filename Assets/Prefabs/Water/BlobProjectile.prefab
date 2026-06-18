@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Gamaplay::WaterBlobProjectile
   waterAmount: 0.25
-  launchForce: 18
+  launchForce: 24
   upwardForce: 0.4
   maxLifetime: 8
   maxCollisions: 3

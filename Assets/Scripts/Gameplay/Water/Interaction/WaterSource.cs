@@ -5,6 +5,7 @@ public class WaterSource : MonoBehaviour
     [Header("Range Settings")]
     [SerializeField] private float pickupRange = 3f;
     [SerializeField] private float maxRange = 10f;
+    public float _maxRange { get { return maxRange; } set { maxRange = value; } }
 
     [Header("Keybinds")]
     [SerializeField] private KeyCode connectKey = KeyCode.F;

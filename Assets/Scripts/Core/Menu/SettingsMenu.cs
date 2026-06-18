@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
@@ -33,6 +34,10 @@ public class SettingsMenu : MonoBehaviour
 
     [SerializeField] private Slider brightnessSlider;
     //[SerializeField] private Slider fovSlider;
+
+    [Header("Game")]
+    [SerializeField] private Toggle invertYAxisToggle;
+    [SerializeField] private Toggle invertXAxisToggle;
 
     private void Awake()
     {
@@ -130,6 +135,58 @@ public class SettingsMenu : MonoBehaviour
 
     #region Game
 
+    public void SetInvertYAxis(bool value)
+    {
+        CinemachineInputAxisController[] cinemachineInputAxisControllers = FindObjectsByType<CinemachineInputAxisController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        if (cinemachineInputAxisControllers != null && cinemachineInputAxisControllers.Length > 0)
+        {
+            foreach (var axisController in cinemachineInputAxisControllers)
+            {
+                // Loop through the dynamically generated controllers to find the right axis
+                foreach (var controller in axisController.Controllers)
+                {
+                    if (controller.Name == "Look Orbit Y")
+                    {
+                        // Use .Gain for the New Input System or general scaling factor
+                        controller.Input.Gain = value? 1 : -1;
+
+                        // Use .LegacyGain instead if you are strictly using Unity's Legacy Input Manager
+                        // controller.Input.LegacyGain = newGain; 
+
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void SetInvertXAxis(bool value)
+    {
+        CinemachineInputAxisController[] cinemachineInputAxisControllers = FindObjectsByType<CinemachineInputAxisController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        if (cinemachineInputAxisControllers != null && cinemachineInputAxisControllers.Length > 0)
+        {
+            foreach (var axisController in cinemachineInputAxisControllers)
+            {
+                // Loop through the dynamically generated controllers to find the right axis
+                foreach (var controller in axisController.Controllers)
+                {
+                    if (controller.Name == "Look Orbit X")
+                    {
+                        // Use .Gain for the New Input System or general scaling factor
+                        controller.Input.Gain = value ? 1 : -1;
+
+                        // Use .LegacyGain instead if you are strictly using Unity's Legacy Input Manager
+                        // controller.Input.LegacyGain = newGain; 
+
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     #endregion
 
     #region Save System
@@ -138,7 +195,7 @@ public class SettingsMenu : MonoBehaviour
         DataPersistenceManager.i.ChangeSelectedProfileId("Settings");
 
         settingsData = new SettingsData(masterVolumeSlider.value, musicVolumeSlider.value, soundVolumeSlider.value, shadowDropdown.value, 
-            screenModeDropdown.value, resolutionDropdown.value, brightnessSlider.value);
+            screenModeDropdown.value, resolutionDropdown.value, brightnessSlider.value, invertYAxisToggle.isOn, invertXAxisToggle.isOn);
 
         DataPersistenceManager.i.SaveSettings(settingsData);
     }
@@ -169,6 +226,9 @@ public class SettingsMenu : MonoBehaviour
 
         SetBrightness(settingsData.brightness);
         //SetFOV(settingsData.fov);
+
+        SetInvertYAxis(settingsData.invertYAxis);
+        SetInvertXAxis(settingsData.invertXAxis);
     }
     #endregion
 }

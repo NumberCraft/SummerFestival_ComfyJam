@@ -12,6 +12,8 @@ public class InteractUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemText;
     [Header("Water")]
     [SerializeField] private TextMeshProUGUI waterText;
+    [Header("Door")]
+    [SerializeField] private TextMeshProUGUI doorText;
 
     private void Awake()
     {
@@ -30,6 +32,8 @@ public class InteractUIManager : MonoBehaviour
                 itemText.gameObject.SetActive(true); break;
             case InteractType.Water:
                 waterText.gameObject.SetActive(true); break;
+            case InteractType.Door:
+                doorText.gameObject.SetActive(true); break;
         }
     }
 
@@ -51,6 +55,10 @@ public class InteractUIManager : MonoBehaviour
                 waterText.gameObject.SetActive(true);
                 waterText.text = text;
                 break;
+            case InteractType.Door:
+                doorText.gameObject.SetActive(true);
+                doorText.text = text;
+                break;
         }
     }
 
@@ -69,6 +77,9 @@ public class InteractUIManager : MonoBehaviour
             case InteractType.Water:
                 waterText.text = text;
                 break;
+            case InteractType.Door:
+                doorText.text = text;
+                break;
         }
     }
 
@@ -84,6 +95,8 @@ public class InteractUIManager : MonoBehaviour
                 itemText.gameObject.SetActive(false); break;
             case InteractType.Water:
                 waterText.gameObject.SetActive(false); break;
+            case InteractType.Door:
+                doorText.gameObject.SetActive(false); break;
         }
     }
 
@@ -92,6 +105,7 @@ public class InteractUIManager : MonoBehaviour
         dialogueText.gameObject.SetActive(false);
         itemText.gameObject.SetActive(false);
         waterText.gameObject.SetActive(false);
+        doorText.gameObject.SetActive(false);
     }
 }
 
@@ -100,4 +114,5 @@ public enum InteractType
     Dialogue,
     Item,
     Water,
+    Door
 }

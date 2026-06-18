@@ -144,5 +144,85 @@
         "currentTags": ["speaker:You", "audio:You", "action:openBridge"]
       }
     ]
+  },
+  {
+    "name": "Moose_1",
+    "dialogs": [
+      {
+        "text": "Hi there! I'm Moose. You must be the Watergun Capybara everyone's been talking about, right?",
+        "currentTags": ["speaker:Moose", "audio:Moose"]
+      },
+      {
+        "text": "That's me! I'm here to help water anything that needs a little extra care. I heard the drought's been pretty tough lately.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "It sure has. We'd really appreciate your help. Nearly everything you see around here, I built myself with these hooves.",
+        "currentTags": ["speaker:Moose", "audio:Moose"]
+      },
+      {
+        "text": "Wow, you've done an amazing job! This place is lovely.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Hehe, not bad, right?",
+        "currentTags": ["speaker:Moose", "audio:Moose"]
+      }
+    ]
+  },
+  {
+    "name": "Deer_1",
+    "dialogs": [
+      {
+        "text": "Oh, I'm so happy to see you, Savior!",
+        "currentTags": ["speaker:Deer", "audio:Deer"]
+      },
+      {
+        "text": "Savior? Wow, nobody's ever called me that before. But I'd be happy to help!",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "See that fountain over there? Moose built it himself, but the drought left it completely dry. Could you give it some water?",
+        "currentTags": ["speaker:Deer", "audio:Deer"]
+      },
+      {
+        "text": "Of course! Leave it to me. We'll have it flowing again in no time.",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
+  },
+  {
+    "name": "Deer_2",
+    "dialogs": [
+      {
+        "text": "You got the fountain flowing again! Now we can enjoy a nice, refreshing bath.",
+        "currentTags": ["speaker:Deer", "audio:Deer"]
+      },
+      {
+        "text": "Uh-huh...",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Thanks a bunch for your help!",
+        "currentTags": ["speaker:Deer", "audio:Deer", "action:give"]
+      }
+    ]
+  },
+  {
+    "name": "Raccoon_1",
+    "dialogs": [
+      {
+        "text": "The berries in this forest are so yummy!",
+        "currentTags": ["speaker:Raccoon", "audio:Raccoon"]
+      },
+      {
+        "text": "Hi... um...",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "nom nom nom",
+        "currentTags": ["speaker:Raccoon", "audio:Raccoon"]
+      }
+    ]
   }
 ]

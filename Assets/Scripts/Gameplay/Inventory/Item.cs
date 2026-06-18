@@ -50,7 +50,7 @@ public class Item : MonoBehaviour, IInteractable
 
     private void PickupItem()
     {
-        bool canAdd = PlayerInventory.ownerPlayerInventory.TryAddItem(itemSO);
+        bool canAdd = PlayerInventory.i.TryAddItem(itemSO);
 
         if (canAdd)
         {

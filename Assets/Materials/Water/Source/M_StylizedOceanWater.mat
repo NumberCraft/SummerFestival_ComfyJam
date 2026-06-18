@@ -25,6 +25,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _A_SHORT_HIKE_MODE
   - _PERSPECTIVE
   - _WORLD_SPACE_UV
   m_InvalidKeywords: []
@@ -93,7 +94,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _A_SHORT_HIKE_MODE: 0
+    - _A_SHORT_HIKE_MODE: 1
     - _BOILING: 0
     - _BoilingSpeed: 0
     - _BoilingStrength: 1

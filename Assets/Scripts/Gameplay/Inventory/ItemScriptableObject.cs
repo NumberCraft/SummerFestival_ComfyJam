@@ -13,4 +13,5 @@ public class ItemScriptableObject : ScriptableObject
 public enum ItemType
 {
     Ticket,
+    Key,
 }

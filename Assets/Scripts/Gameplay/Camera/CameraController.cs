@@ -17,8 +17,12 @@ public class CameraController : MonoBehaviour, IPausable
     [Header("Properties")]
     [SerializeField] private float sens = 200f;
     [SerializeField] private float rotationSpeed;
-
     [HideInInspector] public bool isOrientationFixed = false;
+
+    [Header("Zoom")]
+    [SerializeField] float zoomSpeed = 2f;
+    [SerializeField] float minRadius = 2f;
+    [SerializeField] float maxRadius = 15f;
 
     private void Start()
     {
@@ -31,6 +35,7 @@ public class CameraController : MonoBehaviour, IPausable
     private void Update()
     {
         Rotate();
+        Zoom();
     }
 
     private Coroutine rotateCoroutine;
@@ -98,6 +103,27 @@ public class CameraController : MonoBehaviour, IPausable
         }
 
         playerBody.rotation = targetRotation;
+    }
+
+    private void Zoom()
+    {
+        float scroll = Input.mouseScrollDelta.y;
+
+        if (scroll != 0)
+        {
+            foreach (var cam in cinemachineCameras)
+            {
+                /*CinemachineInputAxisController axisController = cam.GetComponent<CinemachineInputAxisController>();
+
+                axisController.Controllers[0].Input.Gain =
+                Mathf.Clamp(axisController.Controllers[0].Input.Gain +
+                    scroll * zoomSpeed, minScale, maxScale);*/
+
+                CinemachineOrbitalFollow orbitalFollow = cam.GetComponent<CinemachineOrbitalFollow>();
+
+                orbitalFollow.Radius = Mathf.Clamp(orbitalFollow.Radius - scroll * zoomSpeed, minRadius, maxRadius);
+            }
+        }
     }
 
     public void Pause()

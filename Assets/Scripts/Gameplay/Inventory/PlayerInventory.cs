@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    public static PlayerInventory ownerPlayerInventory;
+    public static PlayerInventory i;
 
     //public Action<int, bool> onSelectItem;
     //public Action<int, ItemScriptableObject> onAddItem;
@@ -21,6 +21,19 @@ public class PlayerInventory : MonoBehaviour
 
     [Header("Ticket")]
     [SerializeField] private DialogueTrigger securityDialogueTrigger;
+
+    void Awake()
+    {
+        if (i == null)
+        {
+            i = this;
+        }
+        else
+        {
+            Destroy(this);
+            return;
+        }
+    }
 
     /*private void Update()
     {
