@@ -5,6 +5,8 @@ public class CropController : MonoBehaviour, IWaterable
 {
     [Header("Growth (Placeholder)")]
     [SerializeField] private Vector3 grownScale = new Vector3(1f, 2f, 1f);
+    private Vector3 startScale;
+
 
     [Header("UI Meter")]
     [SerializeField] private GameObject meterCanvas;   // world space canvas child
@@ -15,6 +17,8 @@ public class CropController : MonoBehaviour, IWaterable
     private float waterProgress = 0f; // 0 to 1
     private WaterGun waterGun;
 
+    public CropsSystem cropsSystem { get; set; }
+
     private void Start()
     {
         waterGun = FindAnyObjectByType<WaterGun>();
@@ -22,16 +26,8 @@ public class CropController : MonoBehaviour, IWaterable
         // Hide meter at start
         if (meterCanvas != null)
             meterCanvas.SetActive(false);
-    }
 
-    private void Update()
-    {
-        // Keep meter facing camera
-        if (meterCanvas != null && meterCanvas.activeSelf && Camera.main != null)
-        {
-            meterCanvas.transform.LookAt(Camera.main.transform);
-            meterCanvas.transform.Rotate(0f, 180f, 0f);
-        }
+        startScale = transform.localScale;
     }
 
     public void Water(float waterAmount)
@@ -40,6 +36,8 @@ public class CropController : MonoBehaviour, IWaterable
 
         waterProgress += waterAmount;
         waterProgress = Mathf.Clamp01(waterProgress);
+
+        transform.localScale = Vector3.Lerp(startScale, grownScale, waterProgress);
 
         // Show and update meter
         if (meterCanvas != null)
@@ -67,6 +65,8 @@ public class CropController : MonoBehaviour, IWaterable
 
         // Tell gun to stop the stream
         waterGun?.OnFlowerFullyWatered();
+
+        cropsSystem.AddShottedTarget();
 
         Debug.Log(gameObject.name + " fully watered and grown!");
     }

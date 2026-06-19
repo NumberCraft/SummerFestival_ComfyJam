@@ -5,6 +5,8 @@ public class WaterGun : MonoBehaviour, IPausable
     [Header("References")]
     [SerializeField] private WaterCollector collector;
 
+    [SerializeField] private Transform player;
+
     [Header("Stream Settings")]
     [SerializeField] private float streamRange = 15f;
     public float _streamRange
@@ -29,6 +31,9 @@ public class WaterGun : MonoBehaviour, IPausable
     [SerializeField] private float blobFireRate = 0.4f;
 
     private float blobFireCooldown = 0f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource streamAudioSource;
 
     public bool isShooting { get; private set; }
     private bool isStreaming = false;
@@ -79,21 +84,29 @@ public class WaterGun : MonoBehaviour, IPausable
 
         if (Physics.Raycast(ray, out RaycastHit hit, streamRange, waterableLayer))
         {
-            if (hit.collider.TryGetComponent(out IWaterable waterable))
+            Vector3 toHit = (hit.point - player.transform.position).normalized;
+            float dot = Vector3.Dot(player.transform.forward, toHit);
+
+            if (dot > 0.0f) // or 0.5f for a narrower cone
             {
-                if (!waterable.IsFullyWatered())
+                if (hit.collider.TryGetComponent(out IWaterable waterable))
                 {
-                    waterable.Water(streamStrength * Time.deltaTime);
+                    if (!waterable.IsFullyWatered())
+                    {
+                        waterable.Water(streamStrength * Time.deltaTime);
+                    }
                 }
-            }
-            else if (hit.collider.TryGetComponent(out IMoveable moveable))
-            {
-                moveable.Move(ray.direction);
+                else if (hit.collider.TryGetComponent(out IMoveable moveable))
+                {
+                    moveable.Move(ray.direction);
+                }
             }
         }
 
         if (!muzzlePS.isPlaying)
             muzzlePS.Play();
+
+        AudioManager.Play("waterStream", streamAudioSource);
     }
 
     private void HandleBlob()
@@ -159,6 +172,8 @@ public class WaterGun : MonoBehaviour, IPausable
 
             if (!muzzlePS.isPlaying)
                 muzzlePS.Play();
+
+            AudioManager.Play("launch", streamAudioSource);
         }
     }
 
@@ -168,6 +183,8 @@ public class WaterGun : MonoBehaviour, IPausable
         isStreaming = false;
 
         muzzlePS.Stop();
+
+        AudioManager.Stop("waterStream", streamAudioSource);
     }
 
 

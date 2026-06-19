@@ -47,7 +47,7 @@ MonoBehaviour:
   sounds:
   - name: TextType
     clip: {fileID: 8300000, guid: d9c636037b3d41e4abccd1f879c3d014, type: 3}
-    volume: 1
+    volume: 0.6
     minVolume: 0
     maxVolume: 0
     pitch: 1
@@ -64,7 +64,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: ButtonPress
     clip: {fileID: 8300000, guid: 9aa4f172626cdc3489fa17061a7a671d, type: 3}
-    volume: 0.6
+    volume: 0.3
     minVolume: 0
     maxVolume: 0
     pitch: 1
@@ -81,7 +81,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: ButtonSelect
     clip: {fileID: 8300000, guid: e3e34570687a6d446ae7487672551acb, type: 3}
-    volume: 0.6
+    volume: 0.3
     minVolume: 0
     maxVolume: 0
     pitch: 1
@@ -96,4 +96,194 @@ MonoBehaviour:
     Global: 1
     audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
     source: {fileID: 0}
-  soundPacks: []
+  - name: run
+    clip: {fileID: 8300000, guid: 1196e0aa80dadfa4194c62aeeb0e3e23, type: 3}
+    volume: 1.2
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 1
+    spread: 100
+    minDistance: 5
+    maxDistance: 20
+    loop: 1
+    playOnAwake: 0
+    Global: 0
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  - name: waterStream
+    clip: {fileID: 8300000, guid: 31ae8bb52f78ed04fb5a45ed599bf18d, type: 3}
+    volume: 0.3
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 1
+    spread: 100
+    minDistance: 10
+    maxDistance: 60
+    loop: 1
+    playOnAwake: 0
+    Global: 0
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  - name: mechanism
+    clip: {fileID: 8300000, guid: 4eda34e7fc541ae4cb7901b6a734c987, type: 3}
+    volume: 0.5
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 1
+    spread: 100
+    minDistance: 20
+    maxDistance: 100
+    loop: 0
+    playOnAwake: 0
+    Global: 0
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  - name: blobExplosion
+    clip: {fileID: 8300000, guid: fb6c8d6a2b3848c4ba7bb7e9a4b88b8f, type: 3}
+    volume: 0.5
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 1
+    spread: 100
+    minDistance: 15
+    maxDistance: 65
+    loop: 0
+    playOnAwake: 0
+    Global: 0
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  - name: success
+    clip: {fileID: 8300000, guid: 9a40ff941b6cd8f4b8535ebcaaafb3da, type: 3}
+    volume: 0.3
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 1
+    spread: 0
+    minDistance: 0
+    maxDistance: 0
+    loop: 0
+    playOnAwake: 0
+    Global: 1
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  - name: bounce
+    clip: {fileID: 8300000, guid: e2e32e08dee57f746afcf5a37386d06d, type: 3}
+    volume: 1
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 1
+    spread: 100
+    minDistance: 5
+    maxDistance: 35
+    loop: 0
+    playOnAwake: 0
+    Global: 0
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  - name: jump
+    clip: {fileID: 8300000, guid: 1987e3c1ff09e054b89d172a8903f13c, type: 3}
+    volume: 1
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 1
+    spread: 100
+    minDistance: 10
+    maxDistance: 40
+    loop: 0
+    playOnAwake: 0
+    Global: 0
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  - name: launch
+    clip: {fileID: 8300000, guid: 21cd13437ed4c4b438823421eac832f3, type: 3}
+    volume: 0.7
+    minVolume: 0
+    maxVolume: 0
+    pitch: 1
+    minPitch: 0
+    maxPitch: 0
+    spatialBlend: 1
+    spread: 100
+    minDistance: 10
+    maxDistance: 40
+    loop: 0
+    playOnAwake: 0
+    Global: 0
+    audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+    source: {fileID: 0}
+  soundPacks:
+  - name: collectable
+    ID: 0
+    sounds:
+    - name: collectable 1
+      clip: {fileID: 8300000, guid: b30822390a6046a4eb9a1ef9f0ea4c46, type: 3}
+      volume: 0.6
+      minVolume: 0
+      maxVolume: 0
+      pitch: 1
+      minPitch: 0
+      maxPitch: 0
+      spatialBlend: 0
+      spread: 0
+      minDistance: 0
+      maxDistance: 0
+      loop: 0
+      playOnAwake: 0
+      Global: 1
+      audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+      source: {fileID: 0}
+    - name: collectable 2
+      clip: {fileID: 8300000, guid: 297fecfd7e528a347a5673f69c0edb9b, type: 3}
+      volume: 0.6
+      minVolume: 0
+      maxVolume: 0
+      pitch: 1
+      minPitch: 0
+      maxPitch: 0
+      spatialBlend: 0
+      spread: 0
+      minDistance: 0
+      maxDistance: 0
+      loop: 0
+      playOnAwake: 0
+      Global: 1
+      audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+      source: {fileID: 0}
+    - name: collectable 3
+      clip: {fileID: 8300000, guid: 48ff8930b81fe52408d534535334681b, type: 3}
+      volume: 0.6
+      minVolume: 0
+      maxVolume: 0
+      pitch: 1
+      minPitch: 0
+      maxPitch: 0
+      spatialBlend: 0
+      spread: 0
+      minDistance: 0
+      maxDistance: 0
+      loop: 0
+      playOnAwake: 0
+      Global: 1
+      audioMixerGroup: {fileID: -2870039782652201089, guid: fe00c6021ac3de0468621fe46017c138, type: 2}
+      source: {fileID: 0}

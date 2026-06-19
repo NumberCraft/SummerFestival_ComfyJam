@@ -9,6 +9,8 @@ public class DamSystem : MonoBehaviour
 
     [SerializeField] private WaterSource waterSource;
 
+    [SerializeField] private AudioSource mechanismAudioSource;
+
     private int shottedTargetCount = 0;
 
     private bool isOpened = false;
@@ -40,6 +42,9 @@ public class DamSystem : MonoBehaviour
                 anim.SetBool("isOpened", isOpened);
 
                 waterSource.enabled = true;
+
+                AudioManager.Play("mechanism", mechanismAudioSource);
+                //AudioManager.Play("success");
             }
         }
     }

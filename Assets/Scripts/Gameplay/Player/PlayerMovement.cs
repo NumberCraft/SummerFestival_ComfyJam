@@ -57,6 +57,8 @@ public class PlayerMovement : MonoBehaviour, IPausable
     [SerializeField] private float sprintPitch = 1.2f;
     [SerializeField] private float walkPitch = 1f;
 
+    [SerializeField] private AudioSource jumpAudioSource;
+
     [SerializeField] private float audioFadeDuration = 1f;
 
     private float horizontalInput;
@@ -259,6 +261,8 @@ public class PlayerMovement : MonoBehaviour, IPausable
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
         animationStateController.TriggerJump();
+
+        AudioManager.Play("jump", jumpAudioSource);
     }
 
     private void ResetJump()

@@ -224,5 +224,239 @@
         "currentTags": ["speaker:Raccoon", "audio:Raccoon"]
       }
     ]
+  },
+  {
+    "name": "Ant_1",
+    "dialogs": [
+      {
+        "text": "Hey there! Could you water my crops with your water gun? I need to harvest these vegetables before the festival.",
+        "currentTags": ["speaker:Ant", "audio:Ant"]
+      },
+      {
+        "text": "Of course! A festival wouldn't be much fun without plenty of food.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Thank you so much!",
+        "currentTags": ["speaker:Ant", "audio:Ant"]
+      }
+    ]
+  },
+  {
+    "name": "Ant_2",
+    "dialogs": [
+      {
+        "text": "Wow, they've grown so big! Thank you so much, my boy.",
+        "currentTags": ["speaker:Ant", "audio:Ant"]
+      },
+      {
+        "text": "You're welcome!",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
+  },
+  {
+    "name": "Gull_3",
+    "dialogs": [
+      {
+        "text": "HE'S HERE! EVERYBODY, OUR SAVIOR'S FINALLY HERE!",
+        "currentTags": ["speaker:Gull", "audio:Gull"]
+      },
+      {
+        "text": "You're making me sound more important than I am.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "AFTER EVERYTHING YOU'VE DONE? NOT A CHANCE.",
+        "currentTags": ["speaker:Gull", "audio:Gull"]
+      },
+      {
+        "text": "I was happy to help.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "THEN TAKE A BREAK AND ENJOY YOURSELF.",
+        "currentTags": ["speaker:Gull", "audio:Gull"]
+      },
+      {
+        "text": "That's the plan. You too.",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
+  },
+  {
+    "name": "Crab_3",
+    "dialogs": [
+      {
+        "text": "Hey, what's up?",
+        "currentTags": ["speaker:Crab", "audio:Crab"]
+      },
+      {
+        "text": "Not much. Playing ball?",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Yeah. Want to join us?",
+        "currentTags": ["speaker:Crab", "audio:Crab"]
+      },
+      {
+        "text": "Maybe another time. Have fun.",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
+  },
+  {
+    "name": "Bivalve_3",
+    "dialogs": [
+      {
+        "text": "Thanks for returning our ball! You're a real hero.",
+        "currentTags": ["speaker:Bivalve", "audio:Bivalve"]
+      },
+      {
+        "text": "Don't mention it. Just doing what I do.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "We're really happy to have a hero like you.",
+        "currentTags": ["speaker:Bivalve", "audio:Bivalve"]
+      },
+      {
+        "text": "And I'm happy to help whenever I can.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "See you later!",
+        "currentTags": ["speaker:Bivalve", "audio:Bivalve"]
+      },
+      {
+        "text": "See you! Have fun.",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
+  },
+  {
+    "name": "Dolphin_3",
+    "dialogs": [
+      {
+        "text": "Hey, got a ticket? You can't be here without one.",
+        "currentTags": ["speaker:Dolphin", "audio:Dolphin"]
+      },
+      {
+        "text": "What!?",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Haha, relax. I'm just messing with you.",
+        "currentTags": ["speaker:Dolphin", "audio:Dolphin"]
+      },
+      {
+        "text": "Shouldn't you be at your booth doing your job?",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "This is Summer Sunshine Island. Around here, work can wait.",
+        "currentTags": ["speaker:Dolphin", "audio:Dolphin"]
+      },
+      {
+        "text": "...Fair enough.",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
+  },
+  {
+    "name": "Moose_3",
+    "dialogs": [
+      {
+        "text": "Hi. Why are you sitting here all by yourself, away from everyone else?",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "I love nature. I enjoy being alone, and I like the quiet.",
+        "currentTags": ["speaker:Moose", "audio:Moose"]
+      },
+      {
+        "text": "But it's a special day. You could join the others and have some fun.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Can't you see? I am having fun.",
+        "currentTags": ["speaker:Moose", "audio:Moose"]
+      },
+      {
+        "text": "Ah, when you're older, you'll understand.",
+        "currentTags": ["speaker:Moose", "audio:Moose"]
+      }
+    ]
+  },
+  {
+    "name": "Deer_3",
+    "dialogs": [
+      {
+        "text": "Look at this fountain. It's beautiful. Moose made it.",
+        "currentTags": ["speaker:Deer", "audio:Deer"]
+      },
+      {
+        "text": "It really is beautiful.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "You know, you're pretty cute. Can I have your number?",
+        "currentTags": ["speaker:Deer", "audio:Deer"]
+      },
+      {
+        "text": "Sure. It's 633. That's the number to call when you need a hero.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "Hah! I should've seen that coming.",
+        "currentTags": ["speaker:Deer", "audio:Deer"]
+      }
+    ]
+  },
+  {
+    "name": "Raccoon_3",
+    "dialogs": [
+      {
+        "text": "These berries are so good. Mmm...",
+        "currentTags": ["speaker:Raccoon", "audio:Raccoon"]
+      },
+      {
+        "text": "Uh... hi?",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "What? Nom... nom... nom...",
+        "currentTags": ["speaker:Raccoon", "audio:Raccoon"]
+      },
+      {
+        "text": "Okay then...",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
+  },
+  {
+    "name": "Ant_3",
+    "dialogs": [
+      {
+        "text": "Look at these vegetables. Aren't they beautiful?",
+        "currentTags": ["speaker:Ant", "audio:Ant"]
+      },
+      {
+        "text": "You can have a taste if you'd like.",
+        "currentTags": ["speaker:Ant", "audio:Ant"]
+      },
+      {
+        "text": "No thanks. I'm not hungry right now.",
+        "currentTags": ["speaker:You", "audio:You"]
+      },
+      {
+        "text": "You're a hero. Heroes shouldn't go around on an empty stomach.",
+        "currentTags": ["speaker:Ant", "audio:Ant"]
+      },
+      {
+        "text": "I appreciate the offer, but I'll pass.",
+        "currentTags": ["speaker:You", "audio:You"]
+      }
+    ]
   }
 ]

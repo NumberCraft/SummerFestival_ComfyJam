@@ -139,6 +139,13 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadScene(gameSceneIndex));
     }
 
+    public void StartGameByIndex(int index)
+    {
+        Time.timeScale = 1f;
+
+        StartCoroutine(LoadScene(index));
+    }
+
     public void StartGameByName(string name)
     {
         Time.timeScale = 1f;

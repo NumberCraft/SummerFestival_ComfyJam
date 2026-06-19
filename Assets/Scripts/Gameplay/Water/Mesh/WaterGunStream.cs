@@ -8,6 +8,8 @@ public class WaterGunStream : MonoBehaviour
     public Transform target;
     public LayerMask hitMask;
 
+    [SerializeField] private Transform player;
+
     [SerializeField] private TubeRenderer tubeRenderer;
     [SerializeField] private WaterGun waterGun;
 
@@ -55,10 +57,25 @@ public class WaterGunStream : MonoBehaviour
 
             // 1. Position the target via Raycast
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
             if (Physics.Raycast(ray, out RaycastHit hit, waterGun._streamRange, hitMask))
-                target.position = hit.point;
+            {
+                Vector3 toHit = (hit.point - player.transform.position).normalized;
+                float dot = Vector3.Dot(player.transform.forward, toHit);
+
+                if (dot > 0.0f) // or 0.5f for a narrower cone
+                {
+                    target.position = hit.point;
+                }
+                else
+                {
+                    target.position = ray.origin + ray.direction * waterGun._streamRange;
+                }
+            }
             else
+            {
                 target.position = ray.origin + ray.direction * waterGun._streamRange;
+            }
 
             // 2. Advance the front of the beam forward
             streamProgress = Mathf.MoveTowards(streamProgress, 1f, fillSpeed * Time.deltaTime);

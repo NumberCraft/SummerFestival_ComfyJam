@@ -19,6 +19,9 @@ public class WaterBlobProjectile : MonoBehaviour
     [Header("Effects")]
     [SerializeField] private GameObject splashEffect;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource splashAudioSource;
+
     private Rigidbody rb;
     private bool hasHit = false;
 
@@ -73,7 +76,9 @@ public class WaterBlobProjectile : MonoBehaviour
             Destroy(splash, 2f);
         }
 
-        Destroy(gameObject);
+        AudioManager.Play("blobExplosion", splashAudioSource);
+
+        Destroy(gameObject, 0.5f);
     }
 
     public void Launch(Vector3 direction)

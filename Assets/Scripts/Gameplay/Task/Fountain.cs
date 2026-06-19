@@ -61,6 +61,8 @@ public class Fountain : MonoBehaviour, IWaterable
             animator.SetBool("isCelebrating", true);
         }
 
+        AudioManager.Play("success");
+
         Debug.Log(gameObject.name + " fully watered and grown!");
     }
 

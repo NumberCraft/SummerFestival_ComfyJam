@@ -55,6 +55,8 @@ public class FlowerController : MonoBehaviour, IWaterable
         // Tell gun to stop the stream
         waterGun?.OnFlowerFullyWatered();
 
+        AudioManager.Play("success");
+
         Debug.Log(gameObject.name + " fully watered and grown!");
     }
 
