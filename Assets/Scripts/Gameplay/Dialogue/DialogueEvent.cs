@@ -10,7 +10,7 @@ public class DialogueEvent : MonoBehaviour
     {
         if (dialogueEvents[index] != null)
         {
-            dialogueEvents[index].Invoke();
+            dialogueEvents[index]?.Invoke();
         }
     }
 }

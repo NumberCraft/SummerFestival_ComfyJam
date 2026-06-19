@@ -122,7 +122,7 @@ public class PlayerInventory : MonoBehaviour
                 securityDialogueTrigger.ChangeDialogueIndexTo(2);
             }
 
-            AudioManager.PlayPack("collectable");
+            //AudioManager.PlayPack("collectable");
         }
     }
 

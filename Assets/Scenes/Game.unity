@@ -26930,13 +26930,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 649507231}
     m_Modifications:
+    - target: {fileID: 3036082356426615385, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
+      propertyPath: jumpForce
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 4995432573898157452, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
       propertyPath: securityDialogueTrigger
       value: 
       objectReference: {fileID: 2209509709651652497}
     - target: {fileID: 5993430203705961762, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 419.7
+      value: 419.6
       objectReference: {fileID: 0}
     - target: {fileID: 5993430203705961762, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26944,7 +26948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5993430203705961762, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -917.7
+      value: -918.4
       objectReference: {fileID: 0}
     - target: {fileID: 5993430203705961762, guid: 57f7db71a49288046af9d837d0a4c1ba, type: 3}
       propertyPath: m_LocalRotation.w
