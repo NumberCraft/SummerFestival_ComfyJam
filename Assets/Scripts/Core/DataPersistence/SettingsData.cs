@@ -32,7 +32,7 @@ public class SettingsData
         this.brightness = 0f;
 
         this.invertYAxis = false;
-        this.invertXAxis = false;
+        this.invertXAxis = true;
     }
 
     public SettingsData(float masterVolume, float musicVolume, float soundVolume, int shadowQuality, int screenMode, int resolution, float brightness,
